@@ -3424,8 +3424,8 @@ function renderProgressChart() {
         labels: ["Closed", "Open"],
         datasets: [{
             data: [closed, open],
-            backgroundColor: ["#38bdf8", "#fb7185"],
-            borderColor: "#0f172a",
+            backgroundColor: ["#2563eb", "#cbd5e1"],
+            borderColor: "#ffffff",
             borderWidth: 2
         }]
     },
@@ -3454,8 +3454,8 @@ function renderRiskChart() {
       labels: ["Low", "Medium", "High"],
       datasets: [{
         data: [low, medium, high],
-        backgroundColor: ["#22c55e", "#f59e0b", "#fb7185"],
-        borderColor: "#0f172a",
+        backgroundColor: ["#64748b", "#d97706", "#b91c1c"],
+        borderColor: "#ffffff",
         borderWidth: 2
       }]
     },
@@ -3479,8 +3479,8 @@ function renderBranchChart() {
             datasets: [{
                 label: "Finding",
                 data: Object.values(data),
-                backgroundColor: "#38bdf8",
-                borderRadius: 10,
+                backgroundColor: "#2563eb",
+                borderRadius: 6,
                 barThickness: 38
             }]
         },
@@ -3526,8 +3526,8 @@ function renderWorkloadChart() {
             datasets: [{
                 label: "Open Action",
                 data: Object.values(data),
-                backgroundColor: "#818cf8",
-                borderRadius: 10,
+                backgroundColor: "#475569",
+                borderRadius: 6,
                 barThickness: 38
             }]
         },

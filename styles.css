@@ -4348,3 +4348,206 @@ body::before {
     padding-left: 0;
   }
 }
+
+/* Audit report tone correction */
+:root {
+  --audit-ink: #111827;
+  --audit-muted: #64748b;
+  --audit-line: #d8e2ee;
+  --audit-panel: #ffffff;
+  --audit-panel-soft: #f8fafc;
+  --audit-blue: #1d4ed8;
+  --audit-navy: #0f172a;
+  --audit-amber: #b45309;
+  --audit-red: #991b1b;
+  --audit-green: #047857;
+}
+
+.dashboard-live-strip {
+  border-color: var(--audit-line) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.06) !important;
+}
+
+.live-dot {
+  background: var(--audit-blue) !important;
+  box-shadow: 0 0 0 5px rgba(29, 78, 216, 0.1) !important;
+}
+
+.live-dot::after,
+.dashboard-hero-badge strong i::after {
+  display: none !important;
+}
+
+.hero-tag {
+  color: var(--audit-blue) !important;
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  letter-spacing: .06em !important;
+}
+
+.hero-tag::before,
+.hero-actions span::before {
+  background: var(--audit-blue) !important;
+  box-shadow: none !important;
+}
+
+.hero-actions span {
+  color: #334155 !important;
+  background: #fff !important;
+  border-color: var(--audit-line) !important;
+}
+
+.dashboard-hero {
+  background:
+    linear-gradient(135deg, #ffffff 0%, #f8fbff 58%, #f1f5f9 100%) !important;
+  box-shadow: 0 22px 56px rgba(15, 23, 42, 0.08) !important;
+}
+
+.dashboard-hero::before,
+.dashboard-hero::after {
+  opacity: .36 !important;
+}
+
+.dashboard-hero-badge {
+  background:
+    linear-gradient(145deg, #172033, #334155) !important;
+  box-shadow: 0 20px 44px rgba(15, 23, 42, 0.18) !important;
+}
+
+.dashboard-hero-badge strong {
+  color: #e2e8f0 !important;
+  font-size: 18px !important;
+}
+
+.dashboard-hero-badge strong i {
+  background: #93c5fd !important;
+}
+
+.dashboard-hero-badge small {
+  color: #cbd5e1 !important;
+}
+
+.dashboard-panel,
+.dashboard-section {
+  background: var(--audit-panel) !important;
+  border: 1px solid var(--audit-line) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 16px 44px rgba(15, 23, 42, 0.06) !important;
+}
+
+.dashboard-panel > h3,
+.dashboard-section > h3 {
+  color: var(--audit-ink) !important;
+  font-size: 20px !important;
+  letter-spacing: 0 !important;
+}
+
+.dashboard-panel > h3::after {
+  content: "Report charts" !important;
+  color: #334155 !important;
+  background: #f8fafc !important;
+  border-color: var(--audit-line) !important;
+}
+
+.dashboard-chart-grid {
+  gap: 18px !important;
+}
+
+.dashboard-chart-grid .chart-card,
+#pageDashboard .chart-card {
+  height: 320px !important;
+  min-height: 320px !important;
+  padding: 20px !important;
+  border: 1px solid var(--audit-line) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #fbfdff 100%) !important;
+  box-shadow: none !important;
+}
+
+.dashboard-chart-grid .chart-card:hover {
+  transform: none !important;
+  border-color: #cbd5e1 !important;
+}
+
+.dashboard-chart-grid .chart-card h4,
+#pageDashboard .chart-card h4 {
+  margin-bottom: 12px !important;
+  color: var(--audit-ink) !important;
+  font-size: 15px !important;
+  font-weight: 850 !important;
+}
+
+.dashboard-chart-grid canvas,
+#pageDashboard .chart-card canvas {
+  filter: saturate(.82) contrast(.98);
+}
+
+.risk-summary-grid {
+  gap: 18px !important;
+}
+
+.risk-summary-card,
+.action-plan-kpi,
+.report-kpi {
+  position: relative;
+  overflow: hidden;
+  min-height: 112px;
+  padding: 20px 22px !important;
+  border: 1px solid var(--audit-line) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(180deg, #ffffff, #f8fafc) !important;
+  box-shadow: none !important;
+}
+
+.risk-summary-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: #94a3b8;
+}
+
+.risk-summary-card:nth-child(1)::before { background: var(--audit-green); }
+.risk-summary-card:nth-child(2)::before { background: var(--audit-amber); }
+.risk-summary-card:nth-child(3)::before { background: #dc2626; }
+.risk-summary-card:nth-child(4)::before { background: var(--audit-red); }
+
+.risk-summary-card span,
+.action-plan-kpi span,
+.report-kpi span {
+  color: var(--audit-muted) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+.risk-summary-card strong,
+.action-plan-kpi strong,
+.report-kpi strong {
+  color: var(--audit-navy) !important;
+  font-size: 36px !important;
+  line-height: 1.1 !important;
+}
+
+.risk-summary-card:nth-child(1) strong { color: var(--audit-green) !important; }
+.risk-summary-card:nth-child(2) strong { color: var(--audit-amber) !important; }
+.risk-summary-card:nth-child(3) strong { color: #dc2626 !important; }
+.risk-summary-card:nth-child(4) strong { color: var(--audit-red) !important; }
+
+#pageDashboard > .grid .card .kpi::after {
+  content: "Current" !important;
+  color: #334155 !important;
+  background: #f8fafc !important;
+  border-color: var(--audit-line) !important;
+}
+
+#pageDashboard > .grid .card:nth-child(2) .kpi::after,
+#pageDashboard > .grid .card:nth-child(4) .kpi::after,
+#pageDashboard > .grid .card:nth-child(6) .kpi::after {
+  content: "Attention" !important;
+  color: var(--audit-amber) !important;
+  background: #fffbeb !important;
+  border-color: #fde68a !important;
+}
