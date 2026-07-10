@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>AuditFlow v3</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css?v=enterprise-reference-3" />
+  <link rel="stylesheet" href="styles.css?v=enterprise-reference-4" />
 </head>
 
 <body>
@@ -55,15 +55,37 @@
         <button type="button" id="favoritePageBtn" class="favorite-page-btn" aria-pressed="false">☆ <span data-i18n="favorite.add">Add favorite</span></button>
       </div>
       <section id="pageDashboard" class="page-section">
+        <div class="dashboard-live-strip" aria-label="Operational status">
+          <div>
+            <span class="live-dot"></span>
+            <strong>Audit workspace is live</strong>
+            <small>Realtime sync • FY2026 monitoring</small>
+          </div>
+          <div>
+            <span>Last sync</span>
+            <strong>Just now</strong>
+          </div>
+          <div>
+            <span>Mode</span>
+            <strong>Supervisor</strong>
+          </div>
+        </div>
         <div class="dashboard-hero">
   <div>
+    <span class="hero-tag">Enterprise Audit Operations</span>
     <h1>Internal Audit Command Center</h1>
     <p>FY2026 Audit Monitoring • Enterprise Dashboard</p>
+    <div class="hero-actions">
+      <span>Active review cycle</span>
+      <span>Evidence tracking ready</span>
+      <span>AI assistant enabled</span>
+    </div>
   </div>
 
   <div class="dashboard-hero-badge">
     <span>AuditFlow v3</span>
-    <strong>Live</strong>
+    <strong><i></i> Live</strong>
+    <small>System ready</small>
   </div>
 </div>
       <div class="dashboard-filter-bar">
@@ -1012,6 +1034,6 @@ Branch Master Data
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <script type="module" src="app.js?v=enterprise-reference-3"></script>
+  <script type="module" src="app.js?v=enterprise-reference-4"></script>
   </body>
   </html>
