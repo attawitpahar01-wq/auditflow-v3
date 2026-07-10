@@ -1,0 +1,7 @@
+{
+  "required": "This field is required",
+  "invalidEmail": "Invalid email",
+  "fileTooLarge": "File is too large",
+  "unsupportedFile": "Unsupported file type",
+  "permissionDenied": "Permission denied"
+}

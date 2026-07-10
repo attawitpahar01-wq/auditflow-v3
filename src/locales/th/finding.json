@@ -1,0 +1,16 @@
+{
+  "title": "Audit Finding",
+  "create": "สร้าง Finding",
+  "edit": "แก้ไข Finding",
+  "referenceNo": "เลขอ้างอิง",
+  "condition": "สภาพที่พบ",
+  "criteria": "หลักเกณฑ์",
+  "cause": "สาเหตุ",
+  "effect": "ผลกระทบ",
+  "recommendation": "ข้อเสนอแนะ",
+  "riskLevel": "ระดับความเสี่ยง",
+  "status": "สถานะ",
+  "owner": "ผู้รับผิดชอบ",
+  "dueDate": "วันครบกำหนด"
+}
+

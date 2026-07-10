@@ -1,0 +1,12 @@
+{
+  "title": "AI Assistant",
+  "askAssistant": "Ask Assistant",
+  "generateFinding": "Generate Finding",
+  "generateRecommendation": "Generate Recommendation",
+  "summarize": "Summarize",
+  "analyzeRisk": "Analyze Risk",
+  "improveWriting": "Improve Writing",
+  "processing": "Processing",
+  "disclaimer": "Review AI output before applying"
+}
+

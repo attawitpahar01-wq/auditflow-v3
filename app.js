@@ -53,6 +53,770 @@
     const logoutBtn = document.getElementById("logoutBtn");
     const appDiv = document.getElementById("app");
     const userInfo = document.getElementById("userInfo");
+    const I18N_STORAGE_KEY = "auditflow.locale";
+    const FAVORITES_STORAGE_KEY = "auditflow.favorites";
+    const READ_NOTIFICATIONS_STORAGE_KEY = "auditflow.readNotifications";
+
+    const translations = {
+      th: {
+        auth: {
+          notSignedIn: "ยังไม่ได้เข้าสู่ระบบ",
+          login: "เข้าสู่ระบบด้วย Google",
+          logout: "ออกจากระบบ"
+        },
+        common: {
+          all: "ทั้งหมด",
+          loading: "กำลังโหลด",
+          noData: "ไม่มีข้อมูล",
+          save: "บันทึก",
+          cancel: "ยกเลิก",
+          discard: "ไม่ใช้",
+          open: "เปิด",
+          search: "ค้นหา"
+        },
+        navigation: {
+          dashboard: "แดชบอร์ด",
+          teamDashboard: "ทีมตรวจสอบ",
+          kanban: "บอร์ดงาน",
+          findings: "ทะเบียน Finding",
+          findingForm: "เพิ่ม / แก้ไข Finding",
+          actionPlans: "แผนแก้ไข",
+          riskHeatmap: "แผนที่ความเสี่ยง",
+          evidence: "หลักฐาน",
+          reports: "รายงาน",
+          settings: "ตั้งค่าระบบ"
+        },
+        dashboard: {
+          title: "แดชบอร์ด",
+          managerTitle: "แดชบอร์ดผู้บริหารงานตรวจสอบ",
+          supervisorTitle: "แดชบอร์ด Supervisor",
+          auditorTitle: "แดชบอร์ด Auditor",
+          viewerTitle: "แดชบอร์ดผู้บริหาร",
+          totalFindings: "Finding ทั้งหมด",
+          highRisk: "ความเสี่ยงสูง",
+          openFindings: "ยังเปิดอยู่",
+          overdue: "เกินกำหนด"
+        },
+        finding: {
+          title: "Audit Finding",
+          referenceNo: "เลขอ้างอิง",
+          riskLevel: "ระดับความเสี่ยง",
+          status: "สถานะ",
+          owner: "ผู้รับผิดชอบ",
+          dueDate: "วันครบกำหนด"
+        },
+        actionPlan: {
+          title: "แผนปฏิบัติการ",
+          dueSoon: "แผนใกล้ครบกำหนด",
+          overdue: "แผนเกินกำหนด"
+        },
+        evidence: {
+          title: "ศูนย์หลักฐาน",
+          uploaded: "มีการอัปโหลดหลักฐาน"
+        },
+        report: {
+          title: "ศูนย์รายงาน"
+        },
+        notification: {
+          title: "การแจ้งเตือน",
+          all: "ทั้งหมด",
+          unread: "ยังไม่อ่าน",
+          markAllRead: "อ่านทั้งหมด",
+          findingAssigned: "Finding ถูกมอบหมาย",
+          actionDueSoon: "Action Plan ใกล้ครบกำหนด",
+          actionOverdue: "Action Plan เกินกำหนด",
+          evidenceUploaded: "มีหลักฐานรอตรวจ",
+          reportGenerated: "รายงานพร้อมใช้งาน"
+        },
+        search: {
+          title: "ค้นหาทั้งระบบ",
+          placeholder: "ค้นหา findings, action plans, evidence...",
+          empty: "ไม่พบผลลัพธ์"
+        },
+        command: {
+          title: "Command Palette",
+          placeholder: "พิมพ์คำสั่งหรือชื่อหน้า...",
+          empty: "ไม่พบคำสั่ง"
+        },
+        favorite: {
+          add: "เพิ่ม Favorite",
+          remove: "ลบ Favorite"
+        },
+        ai: {
+          title: "AI Assistant",
+          draftTitle: "AI Draft",
+          generateRecommendation: "ร่าง Recommendation",
+          summarize: "สรุป Finding",
+          analyzeRisk: "วิเคราะห์ความเสี่ยง",
+          applyDraft: "นำ Draft ไปใช้",
+          disclaimer: "ตรวจสอบผลลัพธ์จาก AI ก่อนใช้งานทุกครั้ง ห้ามใส่รหัสผ่าน ข้อมูลผู้ป่วย หรือข้อมูลลับ",
+          localMode: "Local draft mode: ยังไม่ได้เชื่อมต่อ AI service จึงสร้างร่างจากข้อมูลในฟอร์มเท่านั้น"
+        },
+        validation: {
+          permissionDenied: "คุณไม่มีสิทธิ์ดำเนินการนี้"
+        },
+        status: {
+          Open: "เปิด",
+          "In Progress": "กำลังดำเนินการ",
+          Closed: "ปิดแล้ว",
+          Overdue: "เกินกำหนด",
+          "Not Started": "ยังไม่เริ่ม",
+          Implemented: "ดำเนินการแล้ว",
+          Verified: "ตรวจยืนยันแล้ว"
+        },
+        role: {
+          "Audit Manager": "Audit Manager",
+          Supervisor: "Supervisor",
+          "Senior Auditor": "Senior Auditor",
+          Auditor: "Auditor",
+          "Management Viewer": "Management Viewer"
+        }
+      },
+      en: {
+        auth: {
+          notSignedIn: "Not signed in",
+          login: "Login with Google",
+          logout: "Logout"
+        },
+        common: {
+          all: "All",
+          loading: "Loading",
+          noData: "No data",
+          save: "Save",
+          cancel: "Cancel",
+          discard: "Discard",
+          open: "Open",
+          search: "Search"
+        },
+        navigation: {
+          dashboard: "Dashboard",
+          teamDashboard: "Team Dashboard",
+          kanban: "Kanban Board",
+          findings: "Finding Register",
+          findingForm: "Add / Edit Finding",
+          actionPlans: "Action Plan",
+          riskHeatmap: "Risk Heatmap",
+          evidence: "Evidence",
+          reports: "Report",
+          settings: "Setting"
+        },
+        dashboard: {
+          title: "Dashboard",
+          managerTitle: "Manager Dashboard",
+          supervisorTitle: "Supervisor Dashboard",
+          auditorTitle: "Auditor Dashboard",
+          viewerTitle: "Management Dashboard",
+          totalFindings: "Total Findings",
+          highRisk: "High Risk",
+          openFindings: "Open",
+          overdue: "Overdue"
+        },
+        finding: {
+          title: "Audit Finding",
+          referenceNo: "Reference No.",
+          riskLevel: "Risk Level",
+          status: "Status",
+          owner: "Owner",
+          dueDate: "Due Date"
+        },
+        actionPlan: {
+          title: "Action Plan",
+          dueSoon: "Action Plan Due Soon",
+          overdue: "Action Plan Overdue"
+        },
+        evidence: {
+          title: "Evidence Center",
+          uploaded: "Evidence Uploaded"
+        },
+        report: {
+          title: "Report Center"
+        },
+        notification: {
+          title: "Notifications",
+          all: "All",
+          unread: "Unread",
+          markAllRead: "Mark all as read",
+          findingAssigned: "Finding Assigned",
+          actionDueSoon: "Action Plan Due Soon",
+          actionOverdue: "Action Plan Overdue",
+          evidenceUploaded: "Evidence Uploaded",
+          reportGenerated: "Report Generated"
+        },
+        search: {
+          title: "Global Search",
+          placeholder: "Search findings, action plans, evidence...",
+          empty: "No results"
+        },
+        command: {
+          title: "Command Palette",
+          placeholder: "Type a command or page name...",
+          empty: "No commands found"
+        },
+        favorite: {
+          add: "Add favorite",
+          remove: "Remove favorite"
+        },
+        ai: {
+          title: "AI Assistant",
+          draftTitle: "AI Draft",
+          generateRecommendation: "Draft recommendation",
+          summarize: "Summarize finding",
+          analyzeRisk: "Analyze risk",
+          applyDraft: "Apply draft",
+          disclaimer: "Review AI output before applying. Do not include passwords, patient data, or confidential information.",
+          localMode: "Local draft mode: AI service is not connected yet, so this draft is generated from form data only."
+        },
+        validation: {
+          permissionDenied: "You do not have permission to perform this action"
+        },
+        status: {
+          Open: "Open",
+          "In Progress": "In Progress",
+          Closed: "Closed",
+          Overdue: "Overdue",
+          "Not Started": "Not Started",
+          Implemented: "Implemented",
+          Verified: "Verified"
+        },
+        role: {
+          "Audit Manager": "Audit Manager",
+          Supervisor: "Supervisor",
+          "Senior Auditor": "Senior Auditor",
+          Auditor: "Auditor",
+          "Management Viewer": "Management Viewer"
+        }
+      }
+    };
+
+    let currentLocale = getStoredLocale();
+    let notificationFilter = "all";
+    let activePageId = "pageDashboard";
+    let pendingAiDraftTarget = null;
+
+    function getStoredLocale() {
+      const stored = localStorage.getItem(I18N_STORAGE_KEY);
+      return stored === "en" || stored === "th" ? stored : "th";
+    }
+
+    function t(key, params = {}) {
+      const value = key.split(".").reduce((obj, part) => obj?.[part], translations[currentLocale]) ??
+        key.split(".").reduce((obj, part) => obj?.[part], translations.th) ??
+        key;
+      return String(value).replace(/\{\{(\w+)\}\}/g, (_, name) => params[name] ?? "");
+    }
+
+    function setLocale(locale) {
+      currentLocale = locale === "en" ? "en" : "th";
+      localStorage.setItem(I18N_STORAGE_KEY, currentLocale);
+      document.documentElement.lang = currentLocale;
+      applyTranslations();
+      renderV35Data();
+      updatePageChrome(activePageId);
+    }
+
+    function applyTranslations(root = document) {
+      root.querySelectorAll("[data-i18n]").forEach((el) => {
+        el.textContent = t(el.dataset.i18n);
+      });
+      root.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        el.setAttribute("placeholder", t(el.dataset.i18nPlaceholder));
+      });
+      document.querySelectorAll(".language-option").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.lang === currentLocale);
+      });
+    }
+
+    function formatLocaleDate(value) {
+      if (!value) return "-";
+      const date = value?.toDate ? value.toDate() : new Date(value);
+      if (Number.isNaN(date.getTime())) return "-";
+      return new Intl.DateTimeFormat(currentLocale === "th" ? "th-TH-u-ca-buddhist" : "en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }).format(date);
+    }
+
+    function formatRelativeTime(value) {
+      const date = value?.toDate ? value.toDate() : new Date(value || Date.now());
+      const diffMinutes = Math.round((date.getTime() - Date.now()) / 60000);
+      const rtf = new Intl.RelativeTimeFormat(currentLocale, { numeric: "auto" });
+      const abs = Math.abs(diffMinutes);
+      if (abs < 60) return rtf.format(diffMinutes, "minute");
+      const diffHours = Math.round(diffMinutes / 60);
+      if (Math.abs(diffHours) < 24) return rtf.format(diffHours, "hour");
+      return rtf.format(Math.round(diffHours / 24), "day");
+    }
+
+    function formatLocaleCurrency(value) {
+      const amount = Number(value || 0);
+      if (currentLocale === "th") {
+        return `${new Intl.NumberFormat("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount)} บาท`;
+      }
+      return new Intl.NumberFormat("en-US", { style: "currency", currency: "THB" }).format(amount);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    const pageTitleKeys = {
+      pageDashboard: "dashboard.title",
+      pageTeam: "navigation.teamDashboard",
+      pageKanban: "navigation.kanban",
+      pageRegister: "navigation.findings",
+      pageForm: "navigation.findingForm",
+      pageActionPlan: "navigation.actionPlans",
+      pageHeatmap: "navigation.riskHeatmap",
+      pageEvidence: "navigation.evidence",
+      pageReport: "navigation.reports",
+      pageSetting: "navigation.settings"
+    };
+
+    function getFavoritePages() {
+      try {
+        return JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || "[]");
+      } catch {
+        return [];
+      }
+    }
+
+    function saveFavoritePages(pages) {
+      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify([...new Set(pages)]));
+    }
+
+    function getReadNotificationIds() {
+      try {
+        return JSON.parse(localStorage.getItem(READ_NOTIFICATIONS_STORAGE_KEY) || "[]");
+      } catch {
+        return [];
+      }
+    }
+
+    function saveReadNotificationIds(ids) {
+      localStorage.setItem(READ_NOTIFICATIONS_STORAGE_KEY, JSON.stringify([...new Set(ids)]));
+    }
+
+    function updatePageChrome(pageId) {
+      activePageId = pageId || activePageId;
+      const titleKey = pageTitleKeys[activePageId] || "dashboard.title";
+      const role = getCurrentUserRole?.();
+      const roleTitleKey =
+        activePageId === "pageDashboard" && ["Audit Manager", "Supervisor", "Auditor", "Management Viewer"].includes(role)
+          ? role === "Audit Manager"
+            ? "dashboard.managerTitle"
+            : role === "Supervisor"
+              ? "dashboard.supervisorTitle"
+              : role === "Management Viewer"
+                ? "dashboard.viewerTitle"
+                : "dashboard.auditorTitle"
+          : titleKey;
+      const pageTitle = document.getElementById("pageTitle");
+      const breadcrumb = document.getElementById("breadcrumb");
+      if (pageTitle) pageTitle.textContent = t(roleTitleKey);
+      if (breadcrumb) breadcrumb.textContent = t(titleKey);
+      updateFavoriteButton();
+    }
+
+    function updateFavoriteButton() {
+      const btn = document.getElementById("favoritePageBtn");
+      if (!btn) return;
+      const favorites = getFavoritePages();
+      const isFavorite = favorites.includes(activePageId);
+      btn.classList.toggle("is-favorite", isFavorite);
+      btn.setAttribute("aria-pressed", String(isFavorite));
+      btn.innerHTML = `${isFavorite ? "★" : "☆"} <span>${t(isFavorite ? "favorite.remove" : "favorite.add")}</span>`;
+    }
+
+    function getDerivedNotifications() {
+      const now = new Date();
+      const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+      const mine = currentUser?.email?.toLowerCase() || "";
+      const items = [];
+
+      findings.forEach((finding) => {
+        const ownerEmail = finding.ownerId ? teamMembersById[finding.ownerId]?.email : "";
+        const ownerText = `${ownerEmail || finding.ownerName || finding.owner || ""}`.toLowerCase();
+        if (mine && ownerText.includes(mine)) {
+          items.push({
+            id: `finding-assigned-${finding.id}`,
+            type: "findingAssigned",
+            title: t("notification.findingAssigned"),
+            message: `${finding.findingId || "-"} · ${finding.auditArea || ""}`,
+            pageId: "pageRegister",
+            createdAt: finding.updatedAt || finding.createdAt
+          });
+        }
+
+        if (finding.dueDate && finding.status !== "Closed") {
+          const due = new Date(finding.dueDate);
+          if (!Number.isNaN(due.getTime()) && due < now) {
+            items.push({
+              id: `finding-overdue-${finding.id}`,
+              type: "actionOverdue",
+              title: t("notification.actionOverdue"),
+              message: `${finding.findingId || "-"} · ${formatLocaleDate(finding.dueDate)}`,
+              pageId: "pageActionPlan",
+              createdAt: finding.dueDate
+            });
+          } else if (!Number.isNaN(due.getTime()) && due <= nextWeek) {
+            items.push({
+              id: `finding-due-${finding.id}`,
+              type: "actionDueSoon",
+              title: t("notification.actionDueSoon"),
+              message: `${finding.findingId || "-"} · ${formatLocaleDate(finding.dueDate)}`,
+              pageId: "pageActionPlan",
+              createdAt: finding.dueDate
+            });
+          }
+        }
+      });
+
+      evidenceRecords
+        .filter((item) => item.status === "Pending Review")
+        .forEach((item) => {
+          items.push({
+            id: `evidence-${item.id}`,
+            type: "evidenceUploaded",
+            title: t("notification.evidenceUploaded"),
+            message: `${item.findingId || item.findingDocId || "-"} · ${item.ownerName || ""}`,
+            pageId: "pageEvidence",
+            createdAt: item.updatedAt || item.createdAt
+          });
+        });
+
+      return items.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    }
+
+    function renderNotifications() {
+      const list = document.getElementById("notificationList");
+      const badge = document.getElementById("notificationBadge");
+      if (!list || !badge) return;
+      const readIds = getReadNotificationIds();
+      const allItems = getDerivedNotifications();
+      const unread = allItems.filter((item) => !readIds.includes(item.id));
+      const visibleItems = notificationFilter === "unread" ? unread : allItems;
+      badge.textContent = unread.length;
+      badge.classList.toggle("hidden", unread.length === 0);
+      list.innerHTML = visibleItems.length
+        ? visibleItems.map((item) => `
+          <div class="panel-item ${readIds.includes(item.id) ? "" : "unread"}" role="button" tabindex="0" data-notification-id="${escapeHtml(item.id)}" data-page-id="${escapeHtml(item.pageId)}">
+            <strong>${escapeHtml(item.title)}</strong>
+            <div>${escapeHtml(item.message)}</div>
+            <small>${escapeHtml(formatRelativeTime(item.createdAt))}</small>
+          </div>
+        `).join("")
+        : `<div class="panel-item"><strong>${escapeHtml(t("common.noData"))}</strong></div>`;
+    }
+
+    function getSearchItems() {
+      return [
+        ...findings.map((f) => ({
+          type: t("navigation.findings"),
+          title: f.findingId || f.auditArea || t("finding.title"),
+          description: [f.branch, f.auditArea, f.riskLevel, f.status, getOwnerDisplayName(f)].filter(Boolean).join(" · "),
+          pageId: "pageRegister"
+        })),
+        ...actionPlans.map((p) => ({
+          type: t("navigation.actionPlans"),
+          title: p.findingId || p.findingDocId || t("actionPlan.title"),
+          description: [p.actionOwnerName, p.correctiveAction, getCalculatedActionStatus(p)].filter(Boolean).join(" · "),
+          pageId: "pageActionPlan"
+        })),
+        ...evidenceRecords.map((e) => ({
+          type: t("navigation.evidence"),
+          title: e.findingId || e.findingDocId || t("evidence.title"),
+          description: [e.ownerName, e.status, e.reviewComment].filter(Boolean).join(" · "),
+          pageId: "pageEvidence"
+        }))
+      ];
+    }
+
+    function renderGlobalSearch() {
+      const input = document.getElementById("globalSearchInput");
+      const results = document.getElementById("globalSearchResults");
+      if (!input || !results) return;
+      const q = input.value.trim().toLowerCase();
+      const items = getSearchItems().filter((item) =>
+        !q || `${item.type} ${item.title} ${item.description}`.toLowerCase().includes(q)
+      ).slice(0, 20);
+      results.innerHTML = items.length
+        ? items.map((item) => `
+          <button type="button" class="command-item" data-page-id="${escapeHtml(item.pageId)}">
+            <strong>${escapeHtml(item.title)}</strong>
+            <small>${escapeHtml(item.type)} · ${escapeHtml(item.description || "-")}</small>
+          </button>
+        `).join("")
+        : `<div class="command-item"><strong>${escapeHtml(t("search.empty"))}</strong></div>`;
+    }
+
+    function getCommandItems() {
+      const pages = Object.entries(pageTitleKeys).map(([pageId, key]) => ({
+        title: t(key),
+        description: pageId,
+        pageId
+      }));
+      const favorites = getFavoritePages().map((pageId) => ({
+        title: `★ ${t(pageTitleKeys[pageId] || "navigation.dashboard")}`,
+        description: t("favorite.remove"),
+        pageId
+      }));
+      return [...favorites, ...pages];
+    }
+
+    function renderCommandPalette() {
+      const input = document.getElementById("commandPaletteInput");
+      const results = document.getElementById("commandPaletteResults");
+      if (!input || !results) return;
+      const q = input.value.trim().toLowerCase();
+      const items = getCommandItems().filter((item) =>
+        !q || `${item.title} ${item.description}`.toLowerCase().includes(q)
+      ).slice(0, 16);
+      results.innerHTML = items.length
+        ? items.map((item) => `
+          <button type="button" class="command-item" data-page-id="${escapeHtml(item.pageId)}">
+            <strong>${escapeHtml(item.title)}</strong>
+            <small>${escapeHtml(item.description)}</small>
+          </button>
+        `).join("")
+        : `<div class="command-item"><strong>${escapeHtml(t("command.empty"))}</strong></div>`;
+    }
+
+    function openPanel(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.remove("hidden");
+      if (id === "globalSearchOverlay") {
+        renderGlobalSearch();
+        setTimeout(() => document.getElementById("globalSearchInput")?.focus(), 0);
+      }
+      if (id === "commandPaletteOverlay") {
+        renderCommandPalette();
+        setTimeout(() => document.getElementById("commandPaletteInput")?.focus(), 0);
+      }
+    }
+
+    function closePanel(id) {
+      document.getElementById(id)?.classList.add("hidden");
+    }
+
+    function buildLocalAiDraft(action) {
+      const context = {
+        auditArea: getValue("auditArea"),
+        condition: getValue("condition"),
+        criteria: getValue("criteria"),
+        cause: getValue("cause"),
+        effectRisk: getValue("effectRisk"),
+        recommendation: getValue("recommendation"),
+        riskLevel: getValue("riskLevel")
+      };
+      if (action === "recommendation") {
+        pendingAiDraftTarget = "recommendation";
+        return `${t("ai.localMode")}\n\nRecommendation draft:\n1. Strengthen control ownership for ${context.auditArea || "the audited area"}.\n2. Define corrective action, responsible owner, and target date.\n3. Monitor evidence until the issue is verified and closed.\n\nBasis: ${context.condition || "-"} ${context.cause ? `Cause: ${context.cause}` : ""}`;
+      }
+      if (action === "risk") {
+        pendingAiDraftTarget = "effectRisk";
+        return `${t("ai.localMode")}\n\nRisk analysis:\nRisk level: ${context.riskLevel || "-"}\nPotential impact: ${context.effectRisk || context.condition || "-"}\nSuggested focus: validate root cause, quantify exposure, and prioritize management action.`;
+      }
+      pendingAiDraftTarget = "condition";
+      return `${t("ai.localMode")}\n\nSummary:\n${context.condition || "-"}\n\nCriteria: ${context.criteria || "-"}\nCause: ${context.cause || "-"}\nRecommendation: ${context.recommendation || "-"}`;
+    }
+
+    function openAiDraft(action) {
+      const textarea = document.getElementById("aiDraftText");
+      if (textarea) textarea.value = buildLocalAiDraft(action);
+      openPanel("aiDraftOverlay");
+    }
+
+    function getActivityItems(pageId = activePageId) {
+      const items = [];
+      const includeFindings = ["pageDashboard", "pageRegister", "pageForm", "pageKanban", "pageHeatmap"].includes(pageId);
+      const includePlans = ["pageDashboard", "pageActionPlan"].includes(pageId);
+      const includeEvidence = ["pageDashboard", "pageEvidence"].includes(pageId);
+
+      if (includeFindings) {
+        findings.forEach((finding) => {
+          items.push({
+            title: `${t("finding.title")} ${finding.findingId || ""}`.trim(),
+            detail: [finding.auditArea, finding.status, finding.riskLevel].filter(Boolean).join(" · "),
+            date: finding.updatedAt || finding.createdAt
+          });
+        });
+      }
+
+      if (includePlans) {
+        actionPlans.forEach((plan) => {
+          items.push({
+            title: `${t("actionPlan.title")} ${plan.findingId || ""}`.trim(),
+            detail: [plan.actionOwnerName, getCalculatedActionStatus(plan)].filter(Boolean).join(" · "),
+            date: plan.updatedAt || plan.createdAt
+          });
+        });
+      }
+
+      if (includeEvidence) {
+        evidenceRecords.forEach((evidence) => {
+          items.push({
+            title: `${t("evidence.title")} ${evidence.findingId || evidence.findingDocId || ""}`.trim(),
+            detail: [evidence.ownerName, evidence.status].filter(Boolean).join(" · "),
+            date: evidence.updatedAt || evidence.createdAt
+          });
+        });
+      }
+
+      return items
+        .filter((item) => item.title)
+        .sort((a, b) => {
+          const left = a.date?.toDate ? a.date.toDate() : new Date(a.date || 0);
+          const right = b.date?.toDate ? b.date.toDate() : new Date(b.date || 0);
+          return right - left;
+        })
+        .slice(0, 8);
+    }
+
+    function renderActivityTimeline(pageId = activePageId) {
+      const allowedPages = ["pageDashboard", "pageRegister", "pageForm", "pageKanban", "pageHeatmap", "pageActionPlan", "pageEvidence"].includes(pageId);
+      document.querySelectorAll(".activity-timeline-panel").forEach((panel) => panel.remove());
+      if (!allowedPages) return;
+      const target = document.getElementById(pageId);
+      if (!target) return;
+      const items = getActivityItems(pageId);
+      const panel = document.createElement("section");
+      panel.className = "card activity-timeline-panel";
+      panel.innerHTML = `
+        <h3>Activity Timeline</h3>
+        <div class="activity-list">
+          ${items.length ? items.map((item) => `
+            <div class="activity-item">
+              <strong>${escapeHtml(item.title)}</strong>
+              <span>${escapeHtml(item.detail || "-")}</span>
+              <small>${escapeHtml(formatRelativeTime(item.date))}</small>
+            </div>
+          `).join("") : `<div class="activity-item"><strong>${escapeHtml(t("common.noData"))}</strong></div>`}
+        </div>
+      `;
+      target.appendChild(panel);
+    }
+
+    function ensureAiActionBar() {
+      const formPage = document.getElementById("pageForm");
+      if (!formPage) return;
+      const existing = document.getElementById("aiActionBar");
+      if (existing) {
+        existing.innerHTML = `
+          <button type="button" onclick="openAiDraft('recommendation')">${t("ai.generateRecommendation")}</button>
+          <button type="button" class="secondary" onclick="openAiDraft('summary')">${t("ai.summarize")}</button>
+          <button type="button" class="secondary" onclick="openAiDraft('risk')">${t("ai.analyzeRisk")}</button>
+        `;
+        return;
+      }
+      const title = formPage.querySelector("h3");
+      const bar = document.createElement("div");
+      bar.id = "aiActionBar";
+      bar.className = "ai-action-bar";
+      bar.innerHTML = `
+        <button type="button" onclick="openAiDraft('recommendation')">${t("ai.generateRecommendation")}</button>
+        <button type="button" class="secondary" onclick="openAiDraft('summary')">${t("ai.summarize")}</button>
+        <button type="button" class="secondary" onclick="openAiDraft('risk')">${t("ai.analyzeRisk")}</button>
+      `;
+      title?.insertAdjacentElement("afterend", bar);
+    }
+
+    function renderV35Data() {
+      renderNotifications();
+      renderGlobalSearch();
+      renderCommandPalette();
+      ensureAiActionBar();
+      renderActivityTimeline(activePageId);
+      updateFavoriteButton();
+    }
+
+    function initV35Shell() {
+      setLocale(currentLocale);
+      document.getElementById("langThBtn")?.addEventListener("click", () => setLocale("th"));
+      document.getElementById("langEnBtn")?.addEventListener("click", () => setLocale("en"));
+      document.getElementById("notificationBtn")?.addEventListener("click", () => {
+        renderNotifications();
+        openPanel("notificationPanel");
+      });
+      document.getElementById("globalSearchBtn")?.addEventListener("click", () => openPanel("globalSearchOverlay"));
+      document.getElementById("commandPaletteBtn")?.addEventListener("click", () => openPanel("commandPaletteOverlay"));
+      document.getElementById("globalSearchInput")?.addEventListener("input", renderGlobalSearch);
+      document.getElementById("commandPaletteInput")?.addEventListener("input", renderCommandPalette);
+      document.getElementById("notificationAllFilter")?.addEventListener("click", () => {
+        notificationFilter = "all";
+        document.getElementById("notificationAllFilter")?.classList.add("active");
+        document.getElementById("notificationUnreadFilter")?.classList.remove("active");
+        renderNotifications();
+      });
+      document.getElementById("notificationUnreadFilter")?.addEventListener("click", () => {
+        notificationFilter = "unread";
+        document.getElementById("notificationUnreadFilter")?.classList.add("active");
+        document.getElementById("notificationAllFilter")?.classList.remove("active");
+        renderNotifications();
+      });
+      document.getElementById("markAllNotificationsRead")?.addEventListener("click", () => {
+        saveReadNotificationIds(getDerivedNotifications().map((item) => item.id));
+        renderNotifications();
+      });
+      document.getElementById("favoritePageBtn")?.addEventListener("click", () => {
+        const favorites = getFavoritePages();
+        saveFavoritePages(
+          favorites.includes(activePageId)
+            ? favorites.filter((pageId) => pageId !== activePageId)
+            : [...favorites, activePageId]
+        );
+        updateFavoriteButton();
+        renderCommandPalette();
+      });
+      document.getElementById("applyAiDraftBtn")?.addEventListener("click", () => {
+        const text = document.getElementById("aiDraftText")?.value || "";
+        if (pendingAiDraftTarget && text) {
+          setValue(pendingAiDraftTarget, text);
+        }
+        closePanel("aiDraftOverlay");
+      });
+      document.addEventListener("click", (event) => {
+        const closeTarget = event.target.closest("[data-close-panel]");
+        if (closeTarget) closePanel(closeTarget.dataset.closePanel);
+        const notificationItem = event.target.closest("[data-notification-id]");
+        if (notificationItem) {
+          saveReadNotificationIds([...getReadNotificationIds(), notificationItem.dataset.notificationId]);
+          closePanel("notificationPanel");
+          showPage(notificationItem.dataset.pageId || "pageDashboard");
+          renderNotifications();
+        }
+        const commandItem = event.target.closest(".command-item[data-page-id]");
+        if (commandItem) {
+          closePanel("globalSearchOverlay");
+          closePanel("commandPaletteOverlay");
+          showPage(commandItem.dataset.pageId || "pageDashboard");
+        }
+      });
+      document.addEventListener("keydown", (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+          event.preventDefault();
+          openPanel("commandPaletteOverlay");
+        }
+        if (event.key === "Escape") {
+          closePanel("globalSearchOverlay");
+          closePanel("commandPaletteOverlay");
+          closePanel("aiDraftOverlay");
+          closePanel("notificationPanel");
+        }
+      });
+      window.openAiDraft = openAiDraft;
+      window.formatLocaleDate = formatLocaleDate;
+      window.formatLocaleCurrency = formatLocaleCurrency;
+      window.t = t;
+    }
+
+    initV35Shell();
 
     loginBtn.onclick = async () => {
       const provider = new GoogleAuthProvider();
@@ -66,6 +830,7 @@
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUser = user;
+        userInfo.removeAttribute("data-i18n");
         userInfo.innerText = `${user.displayName} (${user.email})`;
         loginBtn.classList.add("hidden");
         logoutBtn.classList.remove("hidden");
@@ -84,10 +849,12 @@
         currentSystemUser = null;
         currentUserRole = null;
         roleLoaded = false;
-        userInfo.innerText = "ยังไม่ได้เข้าสู่ระบบ";
+        userInfo.setAttribute("data-i18n", "auth.notSignedIn");
+        userInfo.innerText = t("auth.notSignedIn");
         loginBtn.classList.remove("hidden");
         logoutBtn.classList.add("hidden");
         appDiv.classList.add("hidden");
+        renderV35Data();
       }
     });
 
@@ -108,6 +875,7 @@
         renderDashboard();
         renderTable();
         if (document.getElementById("reportTable")) loadAuditReport();
+        renderV35Data();
       });
     }
 
@@ -586,6 +1354,7 @@
 
         renderActionPlanDashboard();
         if (document.getElementById("reportTable")) loadAuditReport();
+        renderV35Data();
       });
     }
 
@@ -926,6 +1695,7 @@
 
         renderEvidenceCenter();
         if (document.getElementById("reportTable")) loadAuditReport();
+        renderV35Data();
       });
     }
 
@@ -2873,6 +3643,8 @@ window.showPage = function(pageId) {
   });
 
 
+  updatePageChrome(pageId);
+  renderV35Data();
 
   window.scrollTo(0,0);
 

@@ -1,0 +1,10 @@
+{
+  "title": "แดชบอร์ด",
+  "executiveSummary": "สรุปผู้บริหาร",
+  "auditCompletion": "ความคืบหน้างานตรวจสอบ",
+  "highRiskFindings": "Finding ความเสี่ยงสูง",
+  "overdueActions": "แผนงานเกินกำหนด",
+  "pendingReview": "รอตรวจทาน",
+  "branchPerformance": "ผลการดำเนินงานรายสาขา"
+}
+

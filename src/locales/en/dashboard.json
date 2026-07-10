@@ -1,0 +1,10 @@
+{
+  "title": "Dashboard",
+  "executiveSummary": "Executive Summary",
+  "auditCompletion": "Audit Completion",
+  "highRiskFindings": "High Risk Findings",
+  "overdueActions": "Overdue Actions",
+  "pendingReview": "Pending Review",
+  "branchPerformance": "Branch Performance"
+}
+

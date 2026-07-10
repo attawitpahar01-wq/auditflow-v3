@@ -11,11 +11,22 @@
   <header>
     <div>
       <h2>AuditFlow v3</h2>
-      <div id="userInfo">ยังไม่ได้เข้าสู่ระบบ</div>
+      <div id="userInfo" data-i18n="auth.notSignedIn">ยังไม่ได้เข้าสู่ระบบ</div>
     </div>
-    <div>
-      <button id="loginBtn">Login with Google</button>
-      <button id="logoutBtn" class="secondary hidden">Logout</button>
+    <div class="topbar-actions">
+      <div class="language-switcher" aria-label="Language">
+        <button type="button" id="langThBtn" class="language-option active" data-lang="th">TH</button>
+        <span>|</span>
+        <button type="button" id="langEnBtn" class="language-option" data-lang="en">EN</button>
+      </div>
+      <button type="button" id="globalSearchBtn" class="icon-action" title="Search" aria-label="Search">⌕</button>
+      <button type="button" id="commandPaletteBtn" class="icon-action" title="Command palette" aria-label="Command palette">⌘K</button>
+      <button type="button" id="notificationBtn" class="icon-action notification-trigger" title="Notifications" aria-label="Notifications">
+        🔔
+        <span id="notificationBadge" class="notification-badge hidden">0</span>
+      </button>
+      <button id="loginBtn" data-i18n="auth.login">Login with Google</button>
+      <button id="logoutBtn" class="secondary hidden" data-i18n="auth.logout">Logout</button>
     </div>
   </header>
 
@@ -23,18 +34,25 @@
 
   <aside class="sidebar">
     <h2>AuditFlow v3</h2>
-<button type="button" onclick="showPage('pageDashboard')">📊 Dashboard</button>
-<button type="button" onclick="showPage('pageTeam')">👥 Team Dashboard</button>
-<button type="button" onclick="showPage('pageKanban')">📁 Kanban Board</button>
-<button type="button" onclick="showPage('pageRegister')">📝 Finding Register</button>
-<button type="button" onclick="showPage('pageForm')">➕ Add / Edit Finding</button>
-<button type="button" onclick="showPage('pageActionPlan')">✅ Action Plan</button>
-<button type="button" onclick="showPage('pageHeatmap')">🔥 Risk Heatmap</button>
-<button type="button" onclick="showPage('pageEvidence')">📁 Evidence</button>
-<button type="button" onclick="showPage('pageReport')">📄 Report</button>
-<button type="button" onclick="showPage('pageSetting')">⚙️ Setting</button>
+<button type="button" onclick="showPage('pageDashboard')" data-page-id="pageDashboard"><span>📊</span><span data-i18n="navigation.dashboard">Dashboard</span></button>
+<button type="button" onclick="showPage('pageTeam')" data-page-id="pageTeam"><span>👥</span><span data-i18n="navigation.teamDashboard">Team Dashboard</span></button>
+<button type="button" onclick="showPage('pageKanban')" data-page-id="pageKanban"><span>📁</span><span data-i18n="navigation.kanban">Kanban Board</span></button>
+<button type="button" onclick="showPage('pageRegister')" data-page-id="pageRegister"><span>📝</span><span data-i18n="navigation.findings">Finding Register</span></button>
+<button type="button" onclick="showPage('pageForm')" data-page-id="pageForm"><span>➕</span><span data-i18n="navigation.findingForm">Add / Edit Finding</span></button>
+<button type="button" onclick="showPage('pageActionPlan')" data-page-id="pageActionPlan"><span>✅</span><span data-i18n="navigation.actionPlans">Action Plan</span></button>
+<button type="button" onclick="showPage('pageHeatmap')" data-page-id="pageHeatmap"><span>🔥</span><span data-i18n="navigation.riskHeatmap">Risk Heatmap</span></button>
+<button type="button" onclick="showPage('pageEvidence')" data-page-id="pageEvidence"><span>📁</span><span data-i18n="navigation.evidence">Evidence</span></button>
+<button type="button" onclick="showPage('pageReport')" data-page-id="pageReport"><span>📄</span><span data-i18n="navigation.reports">Report</span></button>
+<button type="button" onclick="showPage('pageSetting')" data-page-id="pageSetting"><span>⚙️</span><span data-i18n="navigation.settings">Setting</span></button>
   </aside>
   <main class="main-content">
+      <div class="page-toolbar" id="pageToolbar">
+        <div>
+          <div class="breadcrumb" id="breadcrumb" data-i18n="navigation.dashboard">Dashboard</div>
+          <h1 id="pageTitle" data-i18n="dashboard.title">Dashboard</h1>
+        </div>
+        <button type="button" id="favoritePageBtn" class="favorite-page-btn" aria-pressed="false">☆ <span data-i18n="favorite.add">Add favorite</span></button>
+      </div>
       <section id="pageDashboard" class="page-section">
         <div class="dashboard-hero">
   <div>
@@ -699,6 +717,56 @@ Branch Master Data
     </table>
 
 
+  </div>
+</div>
+
+<div id="notificationPanel" class="floating-panel hidden" role="dialog" aria-modal="false" aria-labelledby="notificationTitle">
+  <div class="panel-header">
+    <h3 id="notificationTitle" data-i18n="notification.title">Notifications</h3>
+    <button type="button" class="panel-close" data-close-panel="notificationPanel" aria-label="Close">×</button>
+  </div>
+  <div class="panel-actions">
+    <button type="button" id="notificationAllFilter" class="chip active" data-i18n="notification.all">All</button>
+    <button type="button" id="notificationUnreadFilter" class="chip" data-i18n="notification.unread">Unread</button>
+    <button type="button" id="markAllNotificationsRead" class="secondary" data-i18n="notification.markAllRead">Mark all as read</button>
+  </div>
+  <div id="notificationList" class="panel-list"></div>
+</div>
+
+<div id="globalSearchOverlay" class="command-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="globalSearchTitle">
+  <div class="command-modal">
+    <div class="panel-header">
+      <h3 id="globalSearchTitle" data-i18n="search.title">Global Search</h3>
+      <button type="button" class="panel-close" data-close-panel="globalSearchOverlay" aria-label="Close">×</button>
+    </div>
+    <input id="globalSearchInput" class="command-input" type="search" autocomplete="off" data-i18n-placeholder="search.placeholder" placeholder="Search findings, action plans, evidence..." />
+    <div id="globalSearchResults" class="command-results"></div>
+  </div>
+</div>
+
+<div id="commandPaletteOverlay" class="command-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="commandPaletteTitle">
+  <div class="command-modal">
+    <div class="panel-header">
+      <h3 id="commandPaletteTitle" data-i18n="command.title">Command Palette</h3>
+      <button type="button" class="panel-close" data-close-panel="commandPaletteOverlay" aria-label="Close">×</button>
+    </div>
+    <input id="commandPaletteInput" class="command-input" type="search" autocomplete="off" data-i18n-placeholder="command.placeholder" placeholder="Type a command or page name..." />
+    <div id="commandPaletteResults" class="command-results"></div>
+  </div>
+</div>
+
+<div id="aiDraftOverlay" class="command-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="aiDraftTitle">
+  <div class="command-modal ai-draft-modal">
+    <div class="panel-header">
+      <h3 id="aiDraftTitle" data-i18n="ai.draftTitle">AI Draft</h3>
+      <button type="button" class="panel-close" data-close-panel="aiDraftOverlay" aria-label="Close">×</button>
+    </div>
+    <p class="ai-disclaimer" data-i18n="ai.disclaimer">Review AI output before applying. Do not include passwords, patient data, or confidential information.</p>
+    <textarea id="aiDraftText" class="ai-draft-textarea" readonly></textarea>
+    <div class="panel-actions end">
+      <button type="button" class="secondary" data-close-panel="aiDraftOverlay" data-i18n="common.discard">Discard</button>
+      <button type="button" id="applyAiDraftBtn" data-i18n="ai.applyDraft">Apply draft</button>
+    </div>
   </div>
 </div>
   <!-- Legacy Team Management Modal: kept inactive to avoid duplicate active DOM IDs -->

@@ -1,0 +1,16 @@
+{
+  "title": "Audit Finding",
+  "create": "Create Finding",
+  "edit": "Edit Finding",
+  "referenceNo": "Reference No.",
+  "condition": "Condition",
+  "criteria": "Criteria",
+  "cause": "Cause",
+  "effect": "Effect",
+  "recommendation": "Recommendation",
+  "riskLevel": "Risk Level",
+  "status": "Status",
+  "owner": "Owner",
+  "dueDate": "Due Date"
+}
+

@@ -1,0 +1,12 @@
+{
+  "title": "AI Assistant",
+  "askAssistant": "ถาม AI",
+  "generateFinding": "สร้างร่าง Finding",
+  "generateRecommendation": "ร่างข้อเสนอแนะ",
+  "summarize": "สรุป",
+  "analyzeRisk": "วิเคราะห์ความเสี่ยง",
+  "improveWriting": "ปรับสำนวน",
+  "processing": "กำลังประมวลผล",
+  "disclaimer": "ตรวจสอบผลลัพธ์จาก AI ก่อนใช้งานทุกครั้ง"
+}
+
