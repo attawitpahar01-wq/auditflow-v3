@@ -2272,3 +2272,317 @@ canvas {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==============================
+   AuditFlow Enterprise Suite AI
+============================== */
+
+body {
+  background:
+    radial-gradient(circle at 15% 0%, rgba(56, 189, 248, .12), transparent 34%),
+    radial-gradient(circle at 90% 10%, rgba(34, 197, 94, .09), transparent 30%),
+    var(--bg-main);
+}
+
+header,
+.topbar {
+  background: rgba(2, 6, 23, .92);
+  backdrop-filter: blur(16px);
+}
+
+.sidebar {
+  background: linear-gradient(180deg, #020617 0%, #07111f 100%);
+}
+
+.sidebar h2::after {
+  content: "Enterprise Suite";
+  display: block;
+  margin-top: 5px;
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ai-suite-shell {
+  display: grid;
+  gap: 16px;
+}
+
+.ai-suite-hero,
+.ai-suite-filters,
+.ai-panel {
+  border: 1px solid rgba(148, 163, 184, .2);
+  background: linear-gradient(180deg, rgba(15, 23, 42, .95), rgba(2, 6, 23, .92));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .34);
+  border-radius: 12px;
+}
+
+.ai-suite-hero {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 22px;
+  overflow: hidden;
+  position: relative;
+}
+
+.ai-suite-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(56, 189, 248, .14), transparent 42%, rgba(34, 197, 94, .1));
+  pointer-events: none;
+}
+
+.ai-suite-hero > * {
+  position: relative;
+}
+
+.ai-kicker {
+  margin: 0 0 6px;
+  color: #67e8f9;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.ai-suite-hero h2 {
+  margin: 0 0 6px;
+  color: #fff;
+  font-size: 28px;
+}
+
+.ai-suite-hero p {
+  margin: 0;
+  color: #cbd5e1;
+  max-width: 720px;
+}
+
+.ai-mascot {
+  width: 74px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #ecfeff, #bae6fd);
+  border: 1px solid rgba(255, 255, 255, .55);
+  box-shadow: 0 18px 40px rgba(56, 189, 248, .24);
+}
+
+.ai-mascot-face {
+  width: 48px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 16px;
+  background: #0f172a;
+  position: relative;
+}
+
+.ai-mascot-face::before,
+.ai-mascot-face::after {
+  content: "";
+  position: absolute;
+  top: -9px;
+  width: 10px;
+  height: 16px;
+  background: #0f172a;
+  border-radius: 999px;
+}
+
+.ai-mascot-face::before {
+  left: 10px;
+  transform: rotate(-25deg);
+}
+
+.ai-mascot-face::after {
+  right: 10px;
+  transform: rotate(25deg);
+}
+
+.ai-mascot-face span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #67e8f9;
+  box-shadow: 0 0 16px rgba(103, 232, 249, .9);
+}
+
+.ai-mode-badge {
+  display: grid;
+  gap: 5px;
+  justify-items: end;
+  color: #cbd5e1;
+  border: 1px solid rgba(34, 197, 94, .32);
+  background: rgba(22, 163, 74, .12);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.ai-mode-badge strong {
+  color: #86efac;
+}
+
+.ai-suite-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 14px;
+  padding: 16px;
+}
+
+.ai-suite-filters label,
+.ai-prompt-panel label {
+  display: block;
+  margin-bottom: 6px;
+  color: #cbd5e1;
+  font-weight: 700;
+}
+
+.ai-suite-filters select,
+.ai-custom-prompt,
+.ai-output {
+  width: 100%;
+  color: #fff;
+  background: #020617;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 11px 12px;
+}
+
+.ai-workspace {
+  display: grid;
+  grid-template-columns: minmax(280px, .42fr) minmax(320px, .58fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.ai-panel {
+  padding: 16px;
+}
+
+.ai-panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.ai-panel-header h3 {
+  margin: 0 0 5px;
+  color: #f8fafc;
+  font-size: 17px;
+}
+
+.ai-panel-header p {
+  margin: 0;
+  color: #94a3b8;
+}
+
+.ai-command-grid {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.ai-command-grid button {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 13px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: rgba(15, 23, 42, .85);
+  color: #e5e7eb;
+}
+
+.ai-command-grid button:hover {
+  border-color: #38bdf8;
+  background: rgba(14, 116, 144, .22);
+}
+
+.ai-command-grid strong {
+  color: #fff;
+}
+
+.ai-command-grid span {
+  color: #94a3b8;
+}
+
+.ai-custom-prompt {
+  min-height: 105px;
+  resize: vertical;
+}
+
+.ai-run-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.ai-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(100px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ai-insight-card {
+  border: 1px solid rgba(148, 163, 184, .18);
+  border-radius: 8px;
+  padding: 11px;
+  background: rgba(15, 23, 42, .78);
+}
+
+.ai-insight-card span {
+  display: block;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.ai-insight-card strong {
+  color: #f8fafc;
+  font-size: 24px;
+}
+
+.ai-output {
+  min-height: 430px;
+  line-height: 1.55;
+  resize: vertical;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 980px) {
+  .ai-suite-hero,
+  .ai-workspace,
+  .ai-suite-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-mode-badge {
+    justify-items: start;
+  }
+
+  .ai-insight-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .ai-suite-hero {
+    padding: 16px;
+  }
+
+  .ai-suite-hero h2 {
+    font-size: 23px;
+  }
+
+  .ai-panel-header {
+    flex-direction: column;
+  }
+
+  .ai-insight-grid {
+    grid-template-columns: 1fr;
+  }
+}

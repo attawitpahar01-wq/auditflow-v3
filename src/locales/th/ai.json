@@ -1,6 +1,21 @@
 {
   "title": "AI Assistant",
-  "askAssistant": "ถาม AI",
+  "askAssistant": "ถามผู้ช่วย AI",
+  "enterpriseIntro": "ผู้ช่วยงานตรวจสอบภายใน สำหรับสรุป วิเคราะห์ และร่างเอกสารจากข้อมูล audit ที่มีอยู่",
+  "localModeBadge": "Local Draft Mode",
+  "context": "บริบทข้อมูล",
+  "contextOverview": "ภาพรวมงานตรวจสอบ",
+  "tone": "รูปแบบภาษา",
+  "toneExecutive": "ผู้บริหาร",
+  "toneAudit": "ภาษางานตรวจสอบ",
+  "toneAction": "เน้น Action",
+  "language": "ภาษาผลลัพธ์",
+  "promptPanel": "AI Prompt Panel",
+  "promptHint": "เลือกงานที่ต้องการให้ผู้ช่วยร่างจากข้อมูลในระบบ",
+  "resultPanel": "AI Result / Tool Recommendation",
+  "customPrompt": "Custom Prompt",
+  "customPromptPlaceholder": "เช่น สรุป Finding ความเสี่ยงสูงที่ยังไม่ปิด และเสนอ next action",
+  "generateReport": "ร่างรายงาน",
   "generateFinding": "สร้างร่าง Finding",
   "generateRecommendation": "ร่างข้อเสนอแนะ",
   "summarize": "สรุป",
@@ -9,4 +24,3 @@
   "processing": "กำลังประมวลผล",
   "disclaimer": "ตรวจสอบผลลัพธ์จาก AI ก่อนใช้งานทุกครั้ง"
 }
-

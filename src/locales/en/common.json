@@ -1,6 +1,7 @@
 {
   "save": "Save",
   "cancel": "Cancel",
+  "copy": "Copy",
   "delete": "Delete",
   "edit": "Edit",
   "search": "Search",
@@ -12,4 +13,3 @@
   "back": "Back",
   "next": "Next"
 }
-

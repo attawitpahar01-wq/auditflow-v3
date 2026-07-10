@@ -84,6 +84,7 @@
           noData: "ไม่มีข้อมูล",
           save: "บันทึก",
           cancel: "ยกเลิก",
+          copy: "คัดลอก",
           discard: "ไม่ใช้",
           open: "เปิด",
           search: "ค้นหา"
@@ -98,6 +99,7 @@
           riskHeatmap: "แผนที่ความเสี่ยง",
           evidence: "หลักฐาน",
           reports: "รายงาน",
+          aiAssistant: "ผู้ช่วย AI",
           settings: "ตั้งค่าระบบ"
         },
         dashboard: {
@@ -159,9 +161,29 @@
         ai: {
           title: "AI Assistant",
           draftTitle: "AI Draft",
+          enterpriseIntro: "ผู้ช่วยงานตรวจสอบภายใน สำหรับสรุป วิเคราะห์ และร่างเอกสารจากข้อมูล audit ที่มีอยู่",
+          localModeBadge: "Local Draft Mode",
+          context: "บริบทข้อมูล",
+          contextOverview: "ภาพรวมงานตรวจสอบ",
+          tone: "รูปแบบภาษา",
+          toneExecutive: "ผู้บริหาร",
+          toneAudit: "ภาษางานตรวจสอบ",
+          toneAction: "เน้น Action",
+          language: "ภาษาผลลัพธ์",
+          promptPanel: "AI Prompt Panel",
+          promptHint: "เลือกงานที่ต้องการให้ผู้ช่วยร่างจากข้อมูลในระบบ",
+          summarizeHint: "สรุปประเด็น audit ที่สำคัญ",
+          riskHint: "วิเคราะห์ความเสี่ยงและ priority",
+          recommendationHint: "ร่างข้อเสนอแนะเชิงตรวจสอบ",
+          reportHint: "ร่าง executive report จากข้อมูลปัจจุบัน",
+          generateReport: "ร่างรายงาน",
+          resultPanel: "AI Result / Tool Recommendation",
+          customPrompt: "Custom Prompt",
+          customPromptPlaceholder: "เช่น สรุป Finding ความเสี่ยงสูงที่ยังไม่ปิด และเสนอ next action",
           generateRecommendation: "ร่าง Recommendation",
           summarize: "สรุป Finding",
           analyzeRisk: "วิเคราะห์ความเสี่ยง",
+          askAssistant: "ถามผู้ช่วย AI",
           applyDraft: "นำ Draft ไปใช้",
           disclaimer: "ตรวจสอบผลลัพธ์จาก AI ก่อนใช้งานทุกครั้ง ห้ามใส่รหัสผ่าน ข้อมูลผู้ป่วย หรือข้อมูลลับ",
           localMode: "Local draft mode: ยังไม่ได้เชื่อมต่อ AI service จึงสร้างร่างจากข้อมูลในฟอร์มเท่านั้น"
@@ -198,6 +220,7 @@
           noData: "No data",
           save: "Save",
           cancel: "Cancel",
+          copy: "Copy",
           discard: "Discard",
           open: "Open",
           search: "Search"
@@ -212,6 +235,7 @@
           riskHeatmap: "Risk Heatmap",
           evidence: "Evidence",
           reports: "Report",
+          aiAssistant: "AI Assistant",
           settings: "Setting"
         },
         dashboard: {
@@ -273,9 +297,29 @@
         ai: {
           title: "AI Assistant",
           draftTitle: "AI Draft",
+          enterpriseIntro: "Internal audit assistant for summarizing, analyzing, and drafting from available audit data.",
+          localModeBadge: "Local Draft Mode",
+          context: "Context",
+          contextOverview: "Audit Overview",
+          tone: "Tone",
+          toneExecutive: "Executive",
+          toneAudit: "Audit Professional",
+          toneAction: "Action Oriented",
+          language: "Output Language",
+          promptPanel: "AI Prompt Panel",
+          promptHint: "Choose what you want the assistant to draft from current system data.",
+          summarizeHint: "Summarize important audit issues",
+          riskHint: "Analyze risk and priority",
+          recommendationHint: "Draft audit-style recommendations",
+          reportHint: "Draft an executive report from current data",
+          generateReport: "Draft Report",
+          resultPanel: "AI Result / Tool Recommendation",
+          customPrompt: "Custom Prompt",
+          customPromptPlaceholder: "Example: summarize open high-risk findings and propose next actions",
           generateRecommendation: "Draft recommendation",
           summarize: "Summarize finding",
           analyzeRisk: "Analyze risk",
+          askAssistant: "Ask Assistant",
           applyDraft: "Apply draft",
           disclaimer: "Review AI output before applying. Do not include passwords, patient data, or confidential information.",
           localMode: "Local draft mode: AI service is not connected yet, so this draft is generated from form data only."
@@ -389,6 +433,7 @@
       pageHeatmap: "navigation.riskHeatmap",
       pageEvidence: "navigation.evidence",
       pageReport: "navigation.reports",
+      pageAiAssistant: "navigation.aiAssistant",
       pageSetting: "navigation.settings"
     };
 
@@ -647,6 +692,119 @@
       openPanel("aiDraftOverlay");
     }
 
+    function getAiAssistantContext() {
+      const openFindings = findings.filter((f) => f.status !== "Closed");
+      const highRisk = findings.filter((f) => f.riskLevel === "High");
+      const overdueFindings = findings.filter((f) => isOverdue(f.dueDate, f.status));
+      const overduePlans = actionPlans.filter((plan) => getCalculatedActionStatus(plan) === "Overdue");
+      const pendingEvidence = evidenceRecords.filter((item) => item.status === "Pending Review");
+      return {
+        totalFindings: findings.length,
+        openFindingsCount: openFindings.length,
+        highRisk: highRisk.length,
+        overdueFindings: overdueFindings.length,
+        totalActionPlans: actionPlans.length,
+        overduePlans: overduePlans.length,
+        pendingEvidence: pendingEvidence.length,
+        topHighRisk: highRisk.slice(0, 5),
+        openFindingList: openFindings.slice(0, 8),
+        overduePlans: overduePlans.slice(0, 5),
+        pendingEvidence: pendingEvidence.slice(0, 5)
+      };
+    }
+
+    function getAiControlValue(id, fallback = "") {
+      return document.getElementById(id)?.value || fallback;
+    }
+
+    function renderAiAssistant() {
+      const cards = document.getElementById("aiInsightCards");
+      const output = document.getElementById("aiAssistantOutput");
+      if (!cards || !output) return;
+      const ctx = getAiAssistantContext();
+      cards.innerHTML = `
+        <div class="ai-insight-card"><span>${escapeHtml(t("dashboard.totalFindings"))}</span><strong>${ctx.totalFindings}</strong></div>
+        <div class="ai-insight-card"><span>${escapeHtml(t("dashboard.highRisk"))}</span><strong>${ctx.highRisk}</strong></div>
+        <div class="ai-insight-card"><span>${escapeHtml(t("dashboard.overdue"))}</span><strong>${ctx.overdueFindings + ctx.overduePlans}</strong></div>
+        <div class="ai-insight-card"><span>${escapeHtml(t("navigation.evidence"))}</span><strong>${ctx.pendingEvidence}</strong></div>
+      `;
+      if (!output.value) {
+        output.value = buildEnterpriseAiOutput("summary");
+      }
+    }
+
+    function formatFindingLine(finding, index) {
+      return `${index + 1}. ${finding.findingId || "-"} | ${finding.branch || "-"} | ${finding.auditArea || "-"} | ${finding.riskLevel || "-"} | ${finding.status || "-"} | Owner: ${getOwnerDisplayName(finding)}`;
+    }
+
+    function buildEnterpriseAiOutput(action) {
+      const ctx = getAiAssistantContext();
+      const context = getAiControlValue("aiContextSelect", "overview");
+      const tone = getAiControlValue("aiToneSelect", "executive");
+      const language = getAiControlValue("aiLanguageSelect", currentLocale);
+      const customPrompt = getAiControlValue("aiCustomPrompt", "").trim();
+      const isThai = language === "th";
+      const header = isThai
+        ? `AI Draft Mode: ยังไม่ได้เชื่อมต่อ AI backend จึงสร้างร่างจากข้อมูลใน browser เท่านั้น\nContext: ${context} | Tone: ${tone}\n`
+        : `AI Draft Mode: AI backend is not connected yet, so this draft is generated locally from browser data only.\nContext: ${context} | Tone: ${tone}\n`;
+      const highRiskLines = ctx.topHighRisk.length
+        ? ctx.topHighRisk.map(formatFindingLine).join("\n")
+        : (isThai ? "- ไม่พบ Finding ความเสี่ยงสูง" : "- No high-risk findings found");
+      const openLines = ctx.openFindingList.length
+        ? ctx.openFindingList.map(formatFindingLine).join("\n")
+        : (isThai ? "- ไม่พบ Finding ที่ยังเปิดอยู่" : "- No open findings found");
+      const overduePlanLines = ctx.overduePlans.length
+        ? ctx.overduePlans.map((plan, index) => `${index + 1}. ${plan.findingId || plan.findingDocId || "-"} | ${plan.actionOwnerName || "-"} | ${plan.correctiveAction || plan.recommendation || "-"}`).join("\n")
+        : (isThai ? "- ไม่พบ Action Plan เกินกำหนด" : "- No overdue action plans found");
+
+      if (action === "risk") {
+        return isThai
+          ? `${header}\nRisk Analysis\n- Finding ทั้งหมด: ${ctx.totalFindings}\n- ความเสี่ยงสูง: ${ctx.highRisk}\n- Finding ที่ยังไม่ปิด: ${ctx.openFindingsCount}\n- รายการเกินกำหนด: ${ctx.overdueFindings + ctx.overduePlans}\n\nประเด็นที่ควรให้ความสำคัญ:\n${highRiskLines}\n\nข้อเสนอ Next Action:\n1. ให้ Supervisor review รายการ High Risk ก่อน\n2. ติดตาม Action Plan ที่เกินกำหนดพร้อม owner และ revised due date\n3. ขอหลักฐานเพิ่มเติมสำหรับ evidence ที่ยัง Pending Review`
+          : `${header}\nRisk Analysis\n- Total findings: ${ctx.totalFindings}\n- High risk findings: ${ctx.highRisk}\n- Open findings: ${ctx.openFindingsCount}\n- Overdue items: ${ctx.overdueFindings + ctx.overduePlans}\n\nPriority issues:\n${highRiskLines}\n\nRecommended next actions:\n1. Prioritize supervisor review for high-risk findings.\n2. Follow up overdue action plans with owners and revised due dates.\n3. Request additional evidence for pending review items.`;
+      }
+
+      if (action === "recommendation") {
+        return isThai
+          ? `${header}\nDraft Recommendation\n1. กำหนด owner และ target date สำหรับ Finding ที่ยังเปิดอยู่ทุกเรื่อง\n2. ให้ผู้รับผิดชอบจัดทำ corrective action ที่แก้ root cause ไม่ใช่เฉพาะ symptom\n3. กำหนด evidence requirement ก่อนปิด issue\n4. รายงานรายการ High Risk และ Overdue ต่อผู้บริหารเป็นรายสัปดาห์\n\nOpen Findings:\n${openLines}`
+          : `${header}\nDraft Recommendation\n1. Assign an accountable owner and target date for every open finding.\n2. Require corrective actions that address root causes, not only symptoms.\n3. Define evidence requirements before issue closure.\n4. Escalate high-risk and overdue items to management weekly.\n\nOpen Findings:\n${openLines}`;
+      }
+
+      if (action === "report") {
+        return isThai
+          ? `${header}\nExecutive Audit Report Draft\n\nภาพรวม:\nระบบมี Finding ทั้งหมด ${ctx.totalFindings} รายการ โดยมี High Risk ${ctx.highRisk} รายการ และรายการที่ยังไม่ปิด ${ctx.openFindingsCount} รายการ\n\nประเด็นสำคัญ:\n${highRiskLines}\n\nAction Plan เกินกำหนด:\n${overduePlanLines}\n\nManagement Attention:\nควรเร่งปิดรายการ High Risk และติดตามหลักฐานประกอบก่อนอนุมัติปิด Finding`
+          : `${header}\nExecutive Audit Report Draft\n\nOverview:\nThe system currently has ${ctx.totalFindings} findings, including ${ctx.highRisk} high-risk findings and ${ctx.openFindingsCount} open findings.\n\nKey issues:\n${highRiskLines}\n\nOverdue action plans:\n${overduePlanLines}\n\nManagement attention:\nPrioritize closure of high-risk issues and validate supporting evidence before approving closure.`;
+      }
+
+      if (action === "custom" && customPrompt) {
+        return isThai
+          ? `${header}\nCustom Prompt:\n${customPrompt}\n\nคำตอบร่าง:\nจากข้อมูลปัจจุบัน พบ Finding ทั้งหมด ${ctx.totalFindings} รายการ, High Risk ${ctx.highRisk} รายการ, และรายการเกินกำหนด ${ctx.overdueFindings + ctx.overduePlans} รายการ\n\nข้อมูลประกอบ:\n${openLines}`
+          : `${header}\nCustom Prompt:\n${customPrompt}\n\nDraft response:\nBased on current data, there are ${ctx.totalFindings} findings, ${ctx.highRisk} high-risk findings, and ${ctx.overdueFindings + ctx.overduePlans} overdue items.\n\nSupporting data:\n${openLines}`;
+      }
+
+      return isThai
+        ? `${header}\nAudit Summary\n- Finding ทั้งหมด: ${ctx.totalFindings}\n- Finding ยังไม่ปิด: ${ctx.openFindingsCount}\n- High Risk: ${ctx.highRisk}\n- Action Plan ทั้งหมด: ${ctx.totalActionPlans}\n- Evidence รอตรวจ: ${ctx.pendingEvidence}\n\nHigh Risk Snapshot:\n${highRiskLines}`
+        : `${header}\nAudit Summary\n- Total findings: ${ctx.totalFindings}\n- Open findings: ${ctx.openFindingsCount}\n- High risk: ${ctx.highRisk}\n- Total action plans: ${ctx.totalActionPlans}\n- Evidence pending review: ${ctx.pendingEvidence}\n\nHigh-risk snapshot:\n${highRiskLines}`;
+    }
+
+    function runAiAssistantAction(action) {
+      const output = document.getElementById("aiAssistantOutput");
+      if (!output) return;
+      output.value = buildEnterpriseAiOutput(action);
+    }
+
+    async function copyAiAssistantOutput() {
+      const output = document.getElementById("aiAssistantOutput");
+      if (!output?.value) return;
+      try {
+        await navigator.clipboard.writeText(output.value);
+        alert(currentLocale === "th" ? "คัดลอก AI Draft แล้ว" : "AI draft copied");
+      } catch {
+        output.select();
+        document.execCommand("copy");
+        alert(currentLocale === "th" ? "คัดลอก AI Draft แล้ว" : "AI draft copied");
+      }
+    }
+
     function getActivityItems(pageId = activePageId) {
       const items = [];
       const includeFindings = ["pageDashboard", "pageRegister", "pageForm", "pageKanban", "pageHeatmap"].includes(pageId);
@@ -746,6 +904,7 @@
       renderGlobalSearch();
       renderCommandPalette();
       ensureAiActionBar();
+      renderAiAssistant();
       renderActivityTimeline(activePageId);
       updateFavoriteButton();
     }
@@ -826,6 +985,9 @@
         }
       });
       window.openAiDraft = openAiDraft;
+      window.renderAiAssistant = renderAiAssistant;
+      window.runAiAssistantAction = runAiAssistantAction;
+      window.copyAiAssistantOutput = copyAiAssistantOutput;
       window.formatLocaleDate = formatLocaleDate;
       window.formatLocaleCurrency = formatLocaleCurrency;
       window.t = t;
@@ -2567,7 +2729,7 @@
       if (pageId === "pageSetting") return canManageSetting();
 
       if (role === "Management Viewer") {
-        return ["pageDashboard", "pageRegister", "pageActionPlan", "pageEvidence", "pageReport"].includes(pageId);
+        return ["pageDashboard", "pageRegister", "pageActionPlan", "pageEvidence", "pageReport", "pageAiAssistant"].includes(pageId);
       }
 
       return true;
@@ -2593,7 +2755,8 @@
             click.includes("pageRegister") ||
             click.includes("pageActionPlan") ||
             click.includes("pageEvidence") ||
-            click.includes("pageReport");
+            click.includes("pageReport") ||
+            click.includes("pageAiAssistant");
           btn.style.display = allowed ? "" : "none";
         });
       }
@@ -3628,6 +3791,10 @@ window.showPage = function(pageId) {
   if (pageId === "pageReport") {
     ensureReportPageMarkup();
     loadAuditReport();
+  }
+
+  if (pageId === "pageAiAssistant") {
+    renderAiAssistant();
   }
 
   if (pageId === "pageSetting") {

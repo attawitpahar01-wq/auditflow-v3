@@ -1,6 +1,21 @@
 {
   "title": "AI Assistant",
   "askAssistant": "Ask Assistant",
+  "enterpriseIntro": "Internal audit assistant for summarizing, analyzing, and drafting from available audit data.",
+  "localModeBadge": "Local Draft Mode",
+  "context": "Context",
+  "contextOverview": "Audit Overview",
+  "tone": "Tone",
+  "toneExecutive": "Executive",
+  "toneAudit": "Audit Professional",
+  "toneAction": "Action Oriented",
+  "language": "Output Language",
+  "promptPanel": "AI Prompt Panel",
+  "promptHint": "Choose what you want the assistant to draft from current system data.",
+  "resultPanel": "AI Result / Tool Recommendation",
+  "customPrompt": "Custom Prompt",
+  "customPromptPlaceholder": "Example: summarize open high-risk findings and propose next actions",
+  "generateReport": "Draft Report",
   "generateFinding": "Generate Finding",
   "generateRecommendation": "Generate Recommendation",
   "summarize": "Summarize",
@@ -9,4 +24,3 @@
   "processing": "Processing",
   "disclaimer": "Review AI output before applying"
 }
-

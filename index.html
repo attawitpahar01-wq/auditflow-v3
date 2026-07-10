@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>AuditFlow v3</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css?v=fix-buttons-3" />
+  <link rel="stylesheet" href="styles.css?v=enterprise-ai-1" />
 </head>
 
 <body>
@@ -43,6 +43,7 @@
 <button type="button" onclick="showPage('pageHeatmap')" data-page-id="pageHeatmap"><span>🔥</span><span data-i18n="navigation.riskHeatmap">Risk Heatmap</span></button>
 <button type="button" onclick="showPage('pageEvidence')" data-page-id="pageEvidence"><span>📁</span><span data-i18n="navigation.evidence">Evidence</span></button>
 <button type="button" onclick="showPage('pageReport')" data-page-id="pageReport"><span>📄</span><span data-i18n="navigation.reports">Report</span></button>
+<button type="button" onclick="showPage('pageAiAssistant')" data-page-id="pageAiAssistant"><span>✨</span><span data-i18n="navigation.aiAssistant">AI Assistant</span></button>
 <button type="button" onclick="showPage('pageSetting')" data-page-id="pageSetting"><span>⚙️</span><span data-i18n="navigation.settings">Setting</span></button>
   </aside>
   <main class="main-content">
@@ -600,6 +601,100 @@ PDF Export
 </p>
 </div>
 </section>
+<!-- AI Assistant Page -->
+<section id="pageAiAssistant" class="page-section hidden">
+  <div class="ai-suite-shell">
+    <div class="ai-suite-hero">
+      <div class="ai-mascot" aria-hidden="true">
+        <div class="ai-mascot-face">
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div>
+        <p class="ai-kicker">AuditFlow Enterprise Suite</p>
+        <h2 data-i18n="ai.title">AI Assistant</h2>
+        <p data-i18n="ai.enterpriseIntro">ผู้ช่วยงานตรวจสอบภายใน สำหรับสรุป วิเคราะห์ และร่างเอกสารจากข้อมูล audit ที่มีอยู่</p>
+      </div>
+      <div class="ai-mode-badge">
+        <span data-i18n="ai.localModeBadge">Local Draft Mode</span>
+        <strong>Safe</strong>
+      </div>
+    </div>
+
+    <div class="ai-suite-filters">
+      <div>
+        <label data-i18n="ai.context">Context</label>
+        <select id="aiContextSelect" onchange="renderAiAssistant()">
+          <option value="overview" data-i18n="ai.contextOverview">Audit Overview</option>
+          <option value="finding" data-i18n="navigation.findings">Finding Register</option>
+          <option value="actionPlan" data-i18n="navigation.actionPlans">Action Plan</option>
+          <option value="evidence" data-i18n="navigation.evidence">Evidence</option>
+          <option value="report" data-i18n="navigation.reports">Report</option>
+        </select>
+      </div>
+      <div>
+        <label data-i18n="ai.tone">Tone</label>
+        <select id="aiToneSelect" onchange="renderAiAssistant()">
+          <option value="executive" data-i18n="ai.toneExecutive">Executive</option>
+          <option value="audit" data-i18n="ai.toneAudit">Audit Professional</option>
+          <option value="action" data-i18n="ai.toneAction">Action Oriented</option>
+        </select>
+      </div>
+      <div>
+        <label data-i18n="ai.language">Output Language</label>
+        <select id="aiLanguageSelect" onchange="renderAiAssistant()">
+          <option value="th">ไทย</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ai-workspace">
+      <section class="ai-panel ai-prompt-panel">
+        <div class="ai-panel-header">
+          <div>
+            <h3 data-i18n="ai.promptPanel">AI Prompt Panel</h3>
+            <p data-i18n="ai.promptHint">เลือกงานที่ต้องการให้ผู้ช่วยร่างจากข้อมูลในระบบ</p>
+          </div>
+        </div>
+        <div class="ai-command-grid">
+          <button type="button" onclick="runAiAssistantAction('summary')">
+            <strong data-i18n="ai.summarize">Summarize</strong>
+            <span data-i18n="ai.summarizeHint">สรุปประเด็น audit ที่สำคัญ</span>
+          </button>
+          <button type="button" onclick="runAiAssistantAction('risk')">
+            <strong data-i18n="ai.analyzeRisk">Analyze Risk</strong>
+            <span data-i18n="ai.riskHint">วิเคราะห์ความเสี่ยงและ priority</span>
+          </button>
+          <button type="button" onclick="runAiAssistantAction('recommendation')">
+            <strong data-i18n="ai.generateRecommendation">Generate Recommendation</strong>
+            <span data-i18n="ai.recommendationHint">ร่างข้อเสนอแนะเชิงตรวจสอบ</span>
+          </button>
+          <button type="button" onclick="runAiAssistantAction('report')">
+            <strong data-i18n="ai.generateReport">Draft Report</strong>
+            <span data-i18n="ai.reportHint">ร่าง executive report จากข้อมูลปัจจุบัน</span>
+          </button>
+        </div>
+        <label for="aiCustomPrompt" data-i18n="ai.customPrompt">Custom Prompt</label>
+        <textarea id="aiCustomPrompt" class="ai-custom-prompt" data-i18n-placeholder="ai.customPromptPlaceholder" placeholder="เช่น สรุป Finding ความเสี่ยงสูงที่ยังไม่ปิด และเสนอ next action"></textarea>
+        <button type="button" class="ai-run-button" onclick="runAiAssistantAction('custom')" data-i18n="ai.askAssistant">Ask Assistant</button>
+      </section>
+
+      <section class="ai-panel ai-result-panel">
+        <div class="ai-panel-header">
+          <div>
+            <h3 data-i18n="ai.resultPanel">AI Result / Tool Recommendation</h3>
+            <p data-i18n="ai.disclaimer">Review AI output before applying. Do not include passwords, patient data, or confidential information.</p>
+          </div>
+          <button type="button" class="secondary" onclick="copyAiAssistantOutput()" data-i18n="common.copy">Copy</button>
+        </div>
+        <div id="aiInsightCards" class="ai-insight-grid"></div>
+        <textarea id="aiAssistantOutput" class="ai-output" readonly></textarea>
+      </section>
+    </div>
+  </div>
+</section>
 <!-- Setting Page -->
 <section id="pageSetting" class="page-section hidden">
 <div class="card">
@@ -847,6 +942,6 @@ Branch Master Data
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <script type="module" src="app.js?v=fix-buttons-3"></script>
+  <script type="module" src="app.js?v=enterprise-ai-1"></script>
   </body>
   </html>
