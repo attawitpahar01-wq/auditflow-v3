@@ -57,6 +57,20 @@
     const FAVORITES_STORAGE_KEY = "auditflow.favorites";
     const READ_NOTIFICATIONS_STORAGE_KEY = "auditflow.readNotifications";
 
+    window.__auditflowPendingPageId = window.__auditflowPendingPageId || "pageDashboard";
+    window.showPage = window.showPage || function (pageId) {
+      window.__auditflowPendingPageId = pageId || "pageDashboard";
+    };
+    window.openTeamModal = window.openTeamModal || function () {
+      document.getElementById("teamModal")?.classList.remove("hidden");
+    };
+    window.closeTeamModal = window.closeTeamModal || function () {
+      document.getElementById("teamModal")?.classList.add("hidden");
+    };
+    window.saveAuditor = window.saveAuditor || async function () {
+      alert("ระบบกำลังโหลด กรุณาลองอีกครั้ง");
+    };
+
     const translations = {
       th: {
         auth: {
@@ -782,6 +796,7 @@
         closePanel("aiDraftOverlay");
       });
       document.addEventListener("click", (event) => {
+        if (!(event.target instanceof Element)) return;
         const closeTarget = event.target.closest("[data-close-panel]");
         if (closeTarget) closePanel(closeTarget.dataset.closePanel);
         const notificationItem = event.target.closest("[data-notification-id]");
@@ -816,7 +831,11 @@
       window.t = t;
     }
 
-    initV35Shell();
+    try {
+      initV35Shell();
+    } catch (error) {
+      console.error("AuditFlow v3.5 shell failed to initialize. Core app remains available.", error);
+    }
 
     loginBtn.onclick = async () => {
       const provider = new GoogleAuthProvider();
@@ -3650,6 +3669,11 @@ window.showPage = function(pageId) {
 
 
 };
+if (window.__auditflowPendingPageId) {
+  const pendingPageId = window.__auditflowPendingPageId;
+  window.__auditflowPendingPageId = "";
+  setTimeout(() => window.showPage(pendingPageId), 0);
+}
 /* หน้าแรก */
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -3833,7 +3857,7 @@ if (btnManageTeam && teamModal) {
 
 if (btnCloseTeamModal && teamModal) {
   btnCloseTeamModal.addEventListener("click", () => {
-    teamModal.classList.add("hidden");
+    window.closeTeamModal();
   });
 }
 
@@ -3854,6 +3878,10 @@ window.openTeamModal = function () {
 
   modal.classList.remove("hidden");
 };
+
+window.closeTeamModal = function () {
+  document.getElementById("teamModal")?.classList.add("hidden");
+};
 // ===============================
 // Team Management Firestore
 // ===============================
@@ -3861,6 +3889,7 @@ window.openTeamModal = function () {
 const teamRef = collection(db, "audit_team");
 
 window.saveAuditor = async function () {
+  const saveButton = document.getElementById("btnSaveTeamMember");
   const id = document.getElementById("editTeamId")?.value || "";
   const name = document.getElementById("auditorName")?.value.trim();
   const role = document.getElementById("auditorRole")?.value;
@@ -3871,23 +3900,47 @@ window.saveAuditor = async function () {
     return;
   }
 
+  if (!currentUser) {
+    alert("กรุณาเข้าสู่ระบบก่อนบันทึกทีมตรวจสอบ");
+    return;
+  }
+
   const data = {
     name,
     role,
     status,
-    updatedAt: serverTimestamp()
+    updatedAt: serverTimestamp(),
+    updatedBy: currentUser.email
   };
 
-  if (id) {
-    await updateDoc(doc(db, "audit_team", id), data);
-  } else {
-    await addDoc(teamRef, {
-      ...data,
-      createdAt: serverTimestamp()
-    });
-  }
+  try {
+    if (saveButton) {
+      saveButton.disabled = true;
+      saveButton.dataset.originalText = saveButton.textContent;
+      saveButton.textContent = "Saving...";
+    }
 
-  clearTeamForm();
+    if (id) {
+      await updateDoc(doc(db, "audit_team", id), data);
+    } else {
+      await addDoc(teamRef, {
+        ...data,
+        createdAt: serverTimestamp(),
+        createdBy: currentUser.email
+      });
+    }
+
+    clearTeamForm();
+    alert("บันทึก Auditor เรียบร้อย");
+  } catch (error) {
+    console.error("Unable to save auditor", error);
+    alert(`ไม่สามารถบันทึก Auditor ได้: ${error?.message || "กรุณาตรวจสอบสิทธิ์ Firestore หรือการเชื่อมต่อ"}`);
+  } finally {
+    if (saveButton) {
+      saveButton.disabled = false;
+      saveButton.textContent = saveButton.dataset.originalText || "💾 Save Auditor";
+    }
+  }
 };
 
 window.clearTeamForm = function () {
@@ -3965,6 +4018,13 @@ function listenAuditTeam() {
     teamMembersByName = nextTeamMembersByName;
     renderDashboard();
     renderTable();
+  }, (error) => {
+    console.error("Unable to load audit team", error);
+    body.innerHTML = `
+      <tr>
+        <td colspan="6">ไม่สามารถโหลดทีมตรวจสอบได้: ${escapeHtml(error?.message || "กรุณาตรวจสอบสิทธิ์ Firestore")}</td>
+      </tr>
+    `;
   });
 }
 
@@ -4027,6 +4087,9 @@ function loadOwnerDropdown() {
       };
       renderDashboard();
       renderTable();
+    },
+    (error) => {
+      console.error("Unable to load owner dropdown", error);
     }
   );
 }
