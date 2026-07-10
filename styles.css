@@ -4551,3 +4551,307 @@ body::before {
   background: #fffbeb !important;
   border-color: #fde68a !important;
 }
+
+/* Global audit report component alignment */
+.page-section > .card,
+#pageKanban > .card,
+#pageForm > .card,
+#pageHeatmap > .card,
+#pageRegister > .card,
+#pageTeam > .card,
+#pageActionPlan > .card,
+#pageEvidence > .card,
+#pageReport > .card,
+#pageSetting > .card {
+  width: 100%;
+  color: var(--audit-ink) !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid var(--audit-line) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 18px 46px rgba(15, 23, 42, 0.07) !important;
+}
+
+.page-section h3,
+.page-section h4,
+.card h3,
+.card h4 {
+  color: var(--audit-ink) !important;
+  letter-spacing: 0 !important;
+}
+
+.page-section p,
+.page-section label,
+.page-section small {
+  color: var(--audit-muted) !important;
+}
+
+.page-section label {
+  font-weight: 800 !important;
+}
+
+.page-section button,
+.card button,
+.ai-action-bar button {
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 12px !important;
+  min-height: 42px;
+  color: #334155 !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+  font-weight: 850 !important;
+}
+
+.page-section button:hover,
+.card button:hover,
+.ai-action-bar button:hover {
+  border-color: #93c5fd !important;
+  color: var(--audit-blue) !important;
+  background: #eff6ff !important;
+}
+
+.page-section button:not(.secondary):not(.ghost-button):not(.modal-close):not(.panel-close),
+.ai-action-bar button:first-child,
+#pageForm button[onclick="saveFinding()"] {
+  color: #ffffff !important;
+  border-color: var(--audit-blue) !important;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb) !important;
+}
+
+.page-section button.secondary,
+.card button.secondary {
+  color: #475569 !important;
+  background: #f8fafc !important;
+  border-color: #d8e2ee !important;
+}
+
+/* Kanban board */
+.kanban-board {
+  display: grid !important;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 1fr);
+  grid-template-columns: repeat(5, minmax(240px, 1fr)) !important;
+  gap: 16px !important;
+  overflow-x: auto;
+  padding: 8px 4px 16px !important;
+  scrollbar-color: #94a3b8 #e2e8f0;
+}
+
+.kanban-column {
+  min-width: 240px !important;
+  min-height: 520px !important;
+  padding: 14px !important;
+  border: 1px solid var(--audit-line) !important;
+  border-radius: 16px !important;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+  box-shadow: none !important;
+}
+
+.kanban-column h4 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 14px !important;
+  padding: 0 0 12px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  color: #172033 !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+.kanban-column h4::after {
+  content: "Stage";
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: #64748b;
+  background: #f1f5f9;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.kanban-card {
+  margin-bottom: 12px !important;
+  padding: 14px !important;
+  border: 1px solid #d8e2ee !important;
+  border-left-width: 4px !important;
+  border-radius: 14px !important;
+  color: var(--audit-ink) !important;
+  background: #ffffff !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05) !important;
+}
+
+.kanban-card-title {
+  color: #172033 !important;
+  font-size: 14px !important;
+}
+
+.kanban-card-area,
+.kanban-card-owner,
+.kanban-card-meta {
+  color: #64748b !important;
+}
+
+.kanban-pill {
+  color: #334155 !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.kanban-risk-high { border-left-color: var(--audit-red) !important; }
+.kanban-risk-medium { border-left-color: var(--audit-amber) !important; }
+.kanban-risk-low { border-left-color: var(--audit-green) !important; }
+
+.kanban-empty {
+  color: #94a3b8 !important;
+  background: #f8fafc !important;
+  border: 1px dashed #cbd5e1 !important;
+}
+
+/* Forms and AI action buttons */
+#pageForm .card {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+#pageForm .grid,
+.team-form-grid,
+.action-plan-form,
+.report-filter-grid,
+.setting-form-grid {
+  gap: 18px !important;
+}
+
+#pageForm input,
+#pageForm select,
+#pageForm textarea,
+#pageTeam input,
+#pageTeam select,
+#pageTeam textarea,
+#pageReport select,
+#pageActionPlan input,
+#pageActionPlan select,
+#pageActionPlan textarea,
+#pageEvidence input,
+#pageEvidence select,
+#pageEvidence textarea,
+#pageSetting input,
+#pageSetting select,
+#pageSetting textarea {
+  min-height: 50px !important;
+  color: #172033 !important;
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 12px !important;
+}
+
+#pageForm textarea,
+#pageActionPlan textarea,
+#pageEvidence textarea,
+#pageSetting textarea {
+  min-height: 92px !important;
+}
+
+.ai-action-bar,
+.panel-actions {
+  gap: 10px !important;
+}
+
+.ai-action-bar button {
+  padding: 0 16px !important;
+}
+
+.ai-action-bar button::before {
+  display: none !important;
+}
+
+/* Tables and registers */
+table {
+  overflow: hidden;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  color: #334155 !important;
+  background: #ffffff !important;
+  border: 1px solid var(--audit-line) !important;
+  border-radius: 14px !important;
+}
+
+thead,
+thead tr,
+th {
+  color: #475569 !important;
+  background: #f8fafc !important;
+}
+
+th {
+  border-bottom: 1px solid var(--audit-line) !important;
+  font-size: 12px !important;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+td {
+  color: #334155 !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #eef2f7 !important;
+}
+
+tbody tr:hover td {
+  background: #f8fbff !important;
+}
+
+.table-empty {
+  color: #64748b !important;
+  background: #ffffff !important;
+}
+
+/* Risk heatmap */
+.heatmap-grid,
+.heatmap {
+  padding: 14px !important;
+  border: 1px solid var(--audit-line) !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+}
+
+.heatmap-cell,
+.heat-cell {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  color: #172033 !important;
+  box-shadow: none !important;
+}
+
+.risk-low,
+.heatmap-low {
+  background: #ecfdf5 !important;
+  color: #047857 !important;
+}
+
+.risk-medium,
+.heatmap-medium {
+  background: #fffbeb !important;
+  color: #b45309 !important;
+}
+
+.risk-high,
+.heatmap-high {
+  background: #fef2f2 !important;
+  color: #991b1b !important;
+}
+
+/* Page-specific dense panels */
+#pageRegister .card,
+#pageKanban .card,
+#pageHeatmap .card {
+  padding: 20px !important;
+}
+
+#pageKanban .card h3,
+#pageRegister .card h3,
+#pageHeatmap .card h3 {
+  margin-bottom: 18px !important;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 12px;
+}
