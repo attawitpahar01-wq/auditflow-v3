@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>AuditFlow v3</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css?v=enterprise-ai-1" />
+  <link rel="stylesheet" href="styles.css?v=enterprise-reference-2" />
 </head>
 
 <body>
@@ -603,8 +603,8 @@ PDF Export
 </section>
 <!-- AI Assistant Page -->
 <section id="pageAiAssistant" class="page-section hidden">
-  <div class="ai-suite-shell">
-    <div class="ai-suite-hero">
+  <div class="audit-ai-page">
+    <div class="audit-ai-hero">
       <div class="ai-mascot" aria-hidden="true">
         <div class="ai-mascot-face">
           <span></span>
@@ -612,17 +612,18 @@ PDF Export
         </div>
       </div>
       <div>
-        <p class="ai-kicker">AuditFlow Enterprise Suite</p>
+        <p class="eyebrow">AuditFlow AI</p>
         <h2 data-i18n="ai.title">AI Assistant</h2>
         <p data-i18n="ai.enterpriseIntro">ผู้ช่วยงานตรวจสอบภายใน สำหรับสรุป วิเคราะห์ และร่างเอกสารจากข้อมูล audit ที่มีอยู่</p>
       </div>
-      <div class="ai-mode-badge">
+      <div class="ai-status-badge is-ready">
         <span data-i18n="ai.localModeBadge">Local Draft Mode</span>
         <strong>Safe</strong>
       </div>
     </div>
 
-    <div class="ai-suite-filters">
+    <div class="filters ai-suite-filters">
+      <div class="filter-year">2026</div>
       <div>
         <label data-i18n="ai.context">Context</label>
         <select id="aiContextSelect" onchange="renderAiAssistant()">
@@ -650,9 +651,44 @@ PDF Export
       </div>
     </div>
 
-    <div class="ai-workspace">
-      <section class="ai-panel ai-prompt-panel">
-        <div class="ai-panel-header">
+    <div class="audit-ai-workspace">
+      <section class="audit-ai-prompt-panel">
+        <div class="audit-ai-greeting">
+          <figure class="audit-ai-mascot audit-ai-mascot-lg audit-ai-mascot-greeting is-animated" aria-label="Audit AI assistant">
+            <figcaption class="audit-ai-bubble">Hi</figcaption>
+            <svg viewBox="0 0 180 180" role="img" aria-label="Audit AI assistant">
+              <defs>
+                <linearGradient id="mascotBodyStatic" x1="20%" x2="80%" y1="0%" y2="100%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="55%" stop-color="#dbeafe" />
+                  <stop offset="100%" stop-color="#bfdbfe" />
+                </linearGradient>
+                <linearGradient id="mascotFaceStatic" x1="0%" x2="100%" y1="0%" y2="100%">
+                  <stop offset="0%" stop-color="#0f172a" />
+                  <stop offset="100%" stop-color="#1d4ed8" />
+                </linearGradient>
+                <radialGradient id="mascotGlowStatic" cx="50%" cy="50%" r="65%">
+                  <stop offset="0%" stop-color="#93c5fd" stop-opacity=".42" />
+                  <stop offset="100%" stop-color="#93c5fd" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+              <circle cx="90" cy="94" r="78" fill="url(#mascotGlowStatic)" />
+              <path d="M88 39V22" stroke="#60a5fa" stroke-width="7" stroke-linecap="round" />
+              <circle cx="88" cy="19" r="8" fill="#3b82f6" />
+              <ellipse cx="90" cy="95" rx="56" ry="62" fill="url(#mascotBodyStatic)" stroke="#dbeafe" stroke-width="4" />
+              <ellipse cx="36" cy="95" rx="12" ry="24" fill="#dbeafe" stroke="#bfdbfe" stroke-width="4" />
+              <ellipse cx="144" cy="95" rx="12" ry="24" fill="#dbeafe" stroke="#bfdbfe" stroke-width="4" />
+              <rect x="52" y="62" width="76" height="58" rx="24" fill="url(#mascotFaceStatic)" />
+              <circle cx="75" cy="88" r="10" fill="#67e8f9" />
+              <circle cx="105" cy="88" r="10" fill="#67e8f9" />
+              <circle cx="72" cy="84" r="3" fill="#fff" />
+              <circle cx="102" cy="84" r="3" fill="#fff" />
+              <path d="M78 103c7 8 18 8 25 0" fill="none" stroke="#bfdbfe" stroke-width="4" stroke-linecap="round" />
+              <path d="M42 116c-12 9-19 18-21 29" stroke="#93c5fd" stroke-width="9" stroke-linecap="round" />
+              <path class="audit-ai-hand-right" d="M138 116c12 9 19 18 21 29" stroke="#93c5fd" stroke-width="9" stroke-linecap="round" />
+              <path d="M76 134h28l-7 12H83z" fill="#60a5fa" opacity=".34" />
+            </svg>
+          </figure>
           <div>
             <h3 data-i18n="ai.promptPanel">AI Prompt Panel</h3>
             <p data-i18n="ai.promptHint">เลือกงานที่ต้องการให้ผู้ช่วยร่างจากข้อมูลในระบบ</p>
@@ -678,16 +714,50 @@ PDF Export
         </div>
         <label for="aiCustomPrompt" data-i18n="ai.customPrompt">Custom Prompt</label>
         <textarea id="aiCustomPrompt" class="ai-custom-prompt" data-i18n-placeholder="ai.customPromptPlaceholder" placeholder="เช่น สรุป Finding ความเสี่ยงสูงที่ยังไม่ปิด และเสนอ next action"></textarea>
-        <button type="button" class="ai-run-button" onclick="runAiAssistantAction('custom')" data-i18n="ai.askAssistant">Ask Assistant</button>
+        <div class="audit-ai-input-footer">
+          <span>Local-ready assistant. Review every AI draft before use.</span>
+        </div>
+        <div class="audit-ai-prompt-actions">
+          <button type="button" class="audit-ai-generate" onclick="runAiAssistantAction('custom')" data-i18n="ai.askAssistant">Ask Assistant</button>
+          <button type="button" class="secondary-button" onclick="copyAiAssistantOutput()" data-i18n="common.copy">Copy</button>
+          <button type="button" class="ghost-button" onclick="document.getElementById('aiCustomPrompt').value = ''">Clear</button>
+        </div>
+        <p class="audit-ai-privacy">Shielded audit workspace. Do not include passwords or confidential personal data.</p>
       </section>
 
-      <section class="ai-panel ai-result-panel">
-        <div class="ai-panel-header">
+      <section class="audit-ai-result-panel">
+        <div class="audit-ai-ready-card">
           <div>
             <h3 data-i18n="ai.resultPanel">AI Result / Tool Recommendation</h3>
             <p data-i18n="ai.disclaimer">Review AI output before applying. Do not include passwords, patient data, or confidential information.</p>
           </div>
           <button type="button" class="secondary" onclick="copyAiAssistantOutput()" data-i18n="common.copy">Copy</button>
+        </div>
+        <div class="audit-ai-tool-grid">
+          <button type="button" class="audit-ai-tool-card tone-purple" onclick="runAiAssistantAction('report')">
+            <span>R</span>
+            <strong data-i18n="ai.generateReport">Draft Report</strong>
+            <small data-i18n="ai.reportHint">Draft executive report from current data</small>
+            <em data-i18n="ai.askAssistant">Use template</em>
+          </button>
+          <button type="button" class="audit-ai-tool-card tone-green" onclick="runAiAssistantAction('recommendation')">
+            <span>F</span>
+            <strong data-i18n="ai.generateRecommendation">Generate Recommendation</strong>
+            <small data-i18n="ai.recommendationHint">Draft audit recommendation</small>
+            <em data-i18n="ai.askAssistant">Use template</em>
+          </button>
+          <button type="button" class="audit-ai-tool-card tone-orange" onclick="runAiAssistantAction('summary')">
+            <span>?</span>
+            <strong data-i18n="ai.summarize">Summarize</strong>
+            <small data-i18n="ai.summarizeHint">Summarize key audit issues</small>
+            <em data-i18n="ai.askAssistant">Use template</em>
+          </button>
+          <button type="button" class="audit-ai-tool-card tone-blue" onclick="runAiAssistantAction('risk')">
+            <span>!</span>
+            <strong data-i18n="ai.analyzeRisk">Analyze Risk</strong>
+            <small data-i18n="ai.riskHint">Analyze risk and priority</small>
+            <em data-i18n="ai.askAssistant">Use template</em>
+          </button>
         </div>
         <div id="aiInsightCards" class="ai-insight-grid"></div>
         <textarea id="aiAssistantOutput" class="ai-output" readonly></textarea>
@@ -942,6 +1012,6 @@ Branch Master Data
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <script type="module" src="app.js?v=enterprise-ai-1"></script>
+  <script type="module" src="app.js?v=enterprise-reference-2"></script>
   </body>
   </html>
